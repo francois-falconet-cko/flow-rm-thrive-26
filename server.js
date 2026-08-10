@@ -97,6 +97,6 @@ app.post("/create-payment-sessions", async (_req, res) => {
   res.status(request.status).send(parsedPayload);
 });
 
-app.listen(3000, () =>
-  console.log("Node server listening on port 3000: http://localhost:3000/")
+app.listen(3001, () =>
+  console.log("Node server listening on port 3001: http://localhost:3001/")
 );
