@@ -27,11 +27,11 @@ window.CountryConfig = (() => {
       flowOptions: { locale: "en-CA" },
     },
     {
-      code: "mx",
-      name: "Mexico",
-      currency: "MXN",
-      sessionKey: null,
-      flowOptions: { locale: "es-MX" },
+      code: "br",
+      name: "Brazil",
+      currency: "BRL",
+      sessionKey: "br",
+      flowOptions: { locale: "pt-PT" },
     },
     {
       code: "ae",
