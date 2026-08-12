@@ -37,8 +37,8 @@ window.CountryConfig = (() => {
       code: "ae",
       name: "UAE",
       currency: "AED",
-      sessionKey: null,
-      flowOptions: { locale: "en-AE" },
+      sessionKey: "ae",
+      flowOptions: { locale: "ar" },
     },
     {
       code: "sa",
