@@ -1,4 +1,4 @@
-/* global CheckoutWebComponents */
+/* global CheckoutWebComponents, CountryConfig, FlowController */
 
 const SECTIONS = {
   boost: {
@@ -32,24 +32,6 @@ const SECTIONS = {
       "Keep pace with regional requirements while conversion stays front and center",
   },
 };
-
-const COUNTRIES = [
-  { code: "us", name: "United States", currency: "USD" },
-  { code: "ca", name: "Canada", currency: "CAD" },
-  { code: "mx", name: "Mexico", currency: "MXN" },
-  { code: "ae", name: "UAE", currency: "AED" },
-  { code: "sa", name: "Saudi Arabia", currency: "SAR" },
-  { code: "gb", name: "United Kingdom", currency: "GBP" },
-  { code: "nl", name: "Netherlands", currency: "EUR" },
-  { code: "de", name: "Germany", currency: "EUR" },
-  { code: "sg", name: "Singapore", currency: "SGD" },
-  { code: "es", name: "Spain", currency: "EUR" },
-  { code: "jp", name: "Japan", currency: "JPY" },
-  { code: "bh", name: "Bahrain", currency: "BHD" },
-  { code: "hk", name: "Hong Kong", currency: "HKD" },
-  { code: "pt", name: "Portugal", currency: "EUR" },
-  { code: "qa", name: "Qatar", currency: "QAR" },
-];
 
 function triggerToast(id) {
   const element = document.getElementById(id);
@@ -94,7 +76,6 @@ function setSection(sectionKey) {
     grid.classList.remove("is-switching");
     header.style.animation = "none";
     grid.style.animation = "none";
-    // Force reflow so animation can replay
     void header.offsetWidth;
     header.style.animation = "";
     grid.style.animation = "";
@@ -124,7 +105,7 @@ function initNav() {
   });
 }
 
-function selectCountry(country) {
+function updateCountryUi(country) {
   document.querySelectorAll(".country-btn").forEach((btn) => {
     const selected = btn.dataset.code === country.code;
     btn.classList.toggle("is-selected", selected);
@@ -133,24 +114,33 @@ function selectCountry(country) {
 
   document.getElementById("simCountry").textContent = country.name;
   document.getElementById("simCurrency").textContent = country.currency;
+}
 
-  // Hook reserved for upcoming country-driven Flow behavior
-  document.dispatchEvent(
-    new CustomEvent("country:selected", { detail: country }),
-  );
+async function selectCountry(country) {
+  updateCountryUi(country);
+  await FlowController.selectCountry(country);
 }
 
 function initCountries() {
   const grid = document.getElementById("countryGrid");
   if (!grid) return;
 
-  COUNTRIES.forEach((country, index) => {
+  const countries = CountryConfig.getAll();
+  const defaultCountry = CountryConfig.getDefault();
+
+  countries.forEach((country) => {
     const button = document.createElement("button");
+    const isDefault = country.code === defaultCountry.code;
     button.type = "button";
-    button.className = "country-btn" + (index === 0 ? " is-selected" : "");
+    button.className = "country-btn" + (isDefault ? " is-selected" : "");
     button.dataset.code = country.code;
     button.setAttribute("role", "option");
-    button.setAttribute("aria-selected", index === 0 ? "true" : "false");
+    button.setAttribute("aria-selected", isDefault ? "true" : "false");
+
+    if (!country.sessionKey) {
+      button.title = "Session config coming soon for this market";
+      button.classList.add("is-pending");
+    }
 
     const flag = document.createElement("img");
     flag.className = "country-flag";
@@ -165,57 +155,24 @@ function initCountries() {
     label.textContent = country.name;
 
     button.append(flag, label);
-    button.addEventListener("click", () => selectCountry(country));
+    button.addEventListener("click", () => {
+      selectCountry(country);
+    });
     grid.appendChild(button);
   });
 }
 
-async function initFlow() {
-  const configResponse = await fetch("/config");
-  const { publicKey } = await configResponse.json();
+async function boot() {
+  initSidebar();
+  initNav();
+  initCountries();
 
-  if (!configResponse.ok || !publicKey) {
-    console.error("Error loading checkout config");
-    return;
-  }
-
-  const response = await fetch("/create-payment-sessions", { method: "POST" });
-  const paymentSession = await response.json();
-
-  if (!response.ok) {
-    console.error("Error creating payment session", paymentSession);
-    return;
-  }
-
-  const checkout = await CheckoutWebComponents({
-    publicKey,
-    environment: "sandbox",
-    locale: "en-GB",
-    paymentSession,
-    onReady: () => {
-      console.log("onReady");
-    },
-    onPaymentCompleted: (_component, paymentResponse) => {
-      console.log("Create Payment with PaymentId: ", paymentResponse.id);
-    },
-    onChange: (component) => {
-      console.log(
-        `onChange() -> isValid: "${component.isValid()}" for "${component.type}"`,
-      );
-    },
-    onError: (component, error) => {
-      console.log("onError", error, "Component", component.type);
-    },
-  });
-
-  const flowComponent = checkout.create("flow");
-  flowComponent.mount(document.getElementById("flow-container"));
+  const defaultCountry = CountryConfig.getDefault();
+  updateCountryUi(defaultCountry);
+  await FlowController.selectCountry(defaultCountry);
 }
 
-initSidebar();
-initNav();
-initCountries();
-initFlow();
+boot();
 
 const urlParams = new URLSearchParams(window.location.search);
 const paymentStatus = urlParams.get("status");

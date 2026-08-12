@@ -2,6 +2,13 @@ require("dotenv").config();
 
 const express = require("express");
 const fetch = require("node-fetch");
+const {
+  buildPaymentSessionPayload,
+  getSupportedCountryCodes,
+  isCountrySupported,
+  normalizeCountryCode,
+} = require("./lib/country-sessions");
+
 const app = express();
 
 app.use(express.static("public"));
@@ -12,91 +19,52 @@ const SECRET_KEY = process.env.CHECKOUT_SECRET_KEY;
 
 if (!PUBLIC_KEY || !SECRET_KEY) {
   throw new Error(
-    "Missing CHECKOUT_PUBLIC_KEY or CHECKOUT_SECRET_KEY in .env"
+    "Missing CHECKOUT_PUBLIC_KEY or CHECKOUT_SECRET_KEY in .env",
   );
 }
 
 app.get("/config", (_req, res) => {
-  res.json({ publicKey: PUBLIC_KEY });
+  res.json({
+    publicKey: PUBLIC_KEY,
+    supportedCountries: getSupportedCountryCodes(),
+  });
 });
 
-app.post("/create-payment-sessions", async (_req, res) => {
-  // Create a PaymentSession
-  const request = await fetch(
-    "https://api.sandbox.checkout.com/payment-sessions",
-    {
-      method: "POST",
-      headers: {
-        Authorization: `Bearer ${SECRET_KEY}`,
-        "Content-Type": "application/json",
+app.post("/create-payment-sessions", async (req, res) => {
+  const country = normalizeCountryCode(req.body?.country || "us");
+
+  if (!isCountrySupported(country)) {
+    return res.status(400).json({
+      error: `Unsupported country "${country}"`,
+      supportedCountries: getSupportedCountryCodes(),
+    });
+  }
+
+  try {
+    const payload = buildPaymentSessionPayload(country);
+
+    const request = await fetch(
+      "https://api.sandbox.checkout.com/payment-sessions",
+      {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${SECRET_KEY}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(payload),
       },
-      body: JSON.stringify({
-        amount: 6540,
-        currency: "GBP",
-        reference: "ORD-123A",
-        description: "Payment for Guitars and Amps",
-        billing_descriptor: {
-          name: "Jia Tsang",
-          city: "London",
-        },
-        customer: {
-          email: "jia.tsang@example.com",
-          name: "Jia Tsang",
-        },
-        shipping: {
-          address: {
-            address_line1: "123 High St.",
-            address_line2: "Flat 456",
-            city: "London",
-            zip: "SW1A 1AA",
-            country: "GB",
-          },
-          phone: {
-            number: "1234567890",
-            country_code: "+44",
-          },
-        },
-        billing: {
-          address: {
-            address_line1: "123 High St.",
-            address_line2: "Flat 456",
-            city: "London",
-            zip: "SW1A 1AA",
-            country: "GB",
-          },
-          phone: {
-            number: "1234567890",
-            country_code: "+44",
-          },
-        },
-        risk: {
-          enabled: true,
-        },
-        success_url: "http://localhost:3000/?status=succeeded",
-        failure_url: "http://localhost:3000/?status=failed",
-        metadata: {},
-        processing_channel_id: "pc_anuu7qlqknnujm3olh3ajsqs5q",
-        items: [
-          {
-            name: "Guitar",
-            quantity: 1,
-            unit_price: 1635,
-          },
-          {
-            name: "Amp",
-            quantity: 3,
-            unit_price: 1635,
-          },
-        ],
-      }),
-    }
-  );
+    );
 
-  const parsedPayload = await request.json();
-
-  res.status(request.status).send(parsedPayload);
+    const parsedPayload = await request.json();
+    res.status(request.status).send(parsedPayload);
+  } catch (error) {
+    console.error("Failed to create payment session:", error);
+    res.status(error.statusCode || 500).json({
+      error: error.message || "Failed to create payment session",
+    });
+  }
 });
 
 app.listen(3001, () =>
-  console.log("Node server listening on port 3001: http://localhost:3001/")
+  console.log("Node server listening on port 3001: http://localhost:3001/"),
 );
