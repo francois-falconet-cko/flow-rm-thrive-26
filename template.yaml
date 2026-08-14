@@ -1,0 +1,79 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Transform: AWS::Serverless-2016-10-31
+Description: Flow Thrive demo API — Lambda + HTTP API for Amplify frontend
+
+Parameters:
+  CheckoutPublicKey:
+    Type: String
+    NoEcho: true
+    Description: Checkout.com public key (pk_sbox_...)
+  CheckoutSecretKey:
+    Type: String
+    NoEcho: true
+    Description: Checkout.com secret key (sk_sbox_...)
+  AppBaseUrl:
+    Type: String
+    Default: https://main.d3kx3uukn3tmkj.amplifyapp.com
+    Description: Amplify frontend URL (success_url / failure_url)
+  CorsOrigins:
+    Type: String
+    Default: https://main.d3kx3uukn3tmkj.amplifyapp.com
+    Description: Comma-separated allowed browser origins
+
+Globals:
+  Function:
+    Timeout: 30
+    Runtime: nodejs20.x
+    MemorySize: 256
+    Architectures:
+      - x86_64
+
+Resources:
+  FlowHttpApi:
+    Type: AWS::Serverless::HttpApi
+    Properties:
+      StageName: "$default"
+      CorsConfiguration:
+        AllowOrigins: !Split [",", !Ref CorsOrigins]
+        AllowHeaders:
+          - Content-Type
+        AllowMethods:
+          - GET
+          - POST
+          - OPTIONS
+        MaxAge: 600
+
+  FlowApiFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: flow-rm-thrive-api
+      CodeUri: .
+      Handler: lambda/handler.handler
+      Description: Checkout Flow payment-session API for Amplify demo
+      Environment:
+        Variables:
+          CHECKOUT_PUBLIC_KEY: !Ref CheckoutPublicKey
+          CHECKOUT_SECRET_KEY: !Ref CheckoutSecretKey
+          APP_BASE_URL: !Ref AppBaseUrl
+          CORS_ORIGINS: !Ref CorsOrigins
+      Events:
+        ProxyAny:
+          Type: HttpApi
+          Properties:
+            ApiId: !Ref FlowHttpApi
+            Path: /{proxy+}
+            Method: ANY
+        RootAny:
+          Type: HttpApi
+          Properties:
+            ApiId: !Ref FlowHttpApi
+            Path: /
+            Method: ANY
+
+Outputs:
+  ApiBaseUrl:
+    Description: Set this as Amplify env var API_BASE_URL (no trailing slash)
+    Value: !GetAtt FlowHttpApi.ApiEndpoint
+  FunctionName:
+    Description: Lambda function name
+    Value: !Ref FlowApiFunction

@@ -1,33 +1,18 @@
 require("dotenv").config();
 
 const express = require("express");
-const fetch = require("node-fetch");
 const {
-  buildPaymentSessionPayload,
-  getSupportedCountryCodes,
-  isCountrySupported,
-  normalizeCountryCode,
-} = require("./lib/country-sessions");
+  getConfigResponse,
+  createPaymentSessionResponse,
+} = require("./lib/checkout-api");
 
 const app = express();
 const PORT = Number(process.env.PORT) || 3000;
 
-const PUBLIC_KEY = process.env.CHECKOUT_PUBLIC_KEY;
-const SECRET_KEY = process.env.CHECKOUT_SECRET_KEY;
 const ALLOWED_ORIGINS = (process.env.CORS_ORIGINS || "")
   .split(",")
   .map((origin) => origin.trim())
   .filter(Boolean);
-
-function assertCheckoutKeys() {
-  if (!PUBLIC_KEY || !SECRET_KEY) {
-    const error = new Error(
-      "Missing CHECKOUT_PUBLIC_KEY or CHECKOUT_SECRET_KEY environment variables",
-    );
-    error.statusCode = 500;
-    throw error;
-  }
-}
 
 function isOriginAllowed(origin) {
   if (!origin) return true;
@@ -61,11 +46,8 @@ app.get("/health", (_req, res) => {
 
 app.get("/config", (_req, res) => {
   try {
-    assertCheckoutKeys();
-    res.json({
-      publicKey: PUBLIC_KEY,
-      supportedCountries: getSupportedCountryCodes(),
-    });
+    const result = getConfigResponse();
+    res.status(result.statusCode).json(result.body);
   } catch (error) {
     console.error(error.message);
     res.status(error.statusCode || 500).json({ error: error.message });
@@ -73,33 +55,9 @@ app.get("/config", (_req, res) => {
 });
 
 app.post("/create-payment-sessions", async (req, res) => {
-  const country = normalizeCountryCode(req.body?.country || "us");
-
-  if (!isCountrySupported(country)) {
-    return res.status(400).json({
-      error: `Unsupported country "${country}"`,
-      supportedCountries: getSupportedCountryCodes(),
-    });
-  }
-
   try {
-    assertCheckoutKeys();
-    const payload = buildPaymentSessionPayload(country);
-
-    const request = await fetch(
-      "https://api.sandbox.checkout.com/payment-sessions",
-      {
-        method: "POST",
-        headers: {
-          Authorization: `Bearer ${SECRET_KEY}`,
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(payload),
-      },
-    );
-
-    const parsedPayload = await request.json();
-    res.status(request.status).send(parsedPayload);
+    const result = await createPaymentSessionResponse(req.body?.country);
+    res.status(result.statusCode).json(result.body);
   } catch (error) {
     console.error("Failed to create payment session:", error);
     res.status(error.statusCode || 500).json({

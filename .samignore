@@ -1,0 +1,15 @@
+.aws-sam/
+.git/
+.gitignore
+.env
+.env.*
+!.env.example
+dist/
+public/
+node_modules/
+*.zip
+*.md
+amplify.yml
+render.yaml
+scripts/
+flow-rm-thrive-26-sandbox.zip
