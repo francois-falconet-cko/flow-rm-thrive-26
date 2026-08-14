@@ -3,6 +3,7 @@ frontend:
   phases:
     build:
       commands:
+        - echo "API_BASE_URL=$API_BASE_URL"
         - npm run build
   artifacts:
     baseDirectory: dist

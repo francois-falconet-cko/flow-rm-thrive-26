@@ -11,6 +11,12 @@ window.FlowController = (() => {
 
   const flowContainer = () => document.getElementById("flow-container");
 
+  function apiUrl(path) {
+    const base = (window.RUNTIME_CONFIG?.API_BASE_URL || "").replace(/\/$/, "");
+    const normalizedPath = path.startsWith("/") ? path : `/${path}`;
+    return `${base}${normalizedPath}`;
+  }
+
   function setLoading(isLoading) {
     const panel = document.querySelector(".flow-panel");
     if (!panel) return;
@@ -20,7 +26,7 @@ window.FlowController = (() => {
   async function loadPublicKey() {
     if (publicKey) return publicKey;
 
-    const response = await fetch("/config");
+    const response = await fetch(apiUrl("/config"));
     const payload = await response.json();
 
     if (!response.ok || !payload.publicKey) {
@@ -32,7 +38,7 @@ window.FlowController = (() => {
   }
 
   async function createPaymentSession(sessionKey) {
-    const response = await fetch("/create-payment-sessions", {
+    const response = await fetch(apiUrl("/create-payment-sessions"), {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ country: sessionKey }),
