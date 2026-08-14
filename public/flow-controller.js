@@ -12,7 +12,17 @@ window.FlowController = (() => {
   const flowContainer = () => document.getElementById("flow-container");
 
   function apiUrl(path) {
-    const base = (window.RUNTIME_CONFIG?.API_BASE_URL || "").replace(/\/$/, "");
+    let base = window.RUNTIME_CONFIG?.API_BASE_URL || "";
+    base = String(base).trim().replace(/^API_BASE_URL=/i, "").replace(/\/$/, "");
+
+    if (base && !/^https?:\/\//i.test(base)) {
+      console.error(
+        "Invalid API_BASE_URL (must start with https://). Got:",
+        base,
+      );
+      base = "";
+    }
+
     const normalizedPath = path.startsWith("/") ? path : `/${path}`;
     return `${base}${normalizedPath}`;
   }

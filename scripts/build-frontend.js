@@ -15,7 +15,23 @@ for (const entry of fs.readdirSync(publicDir)) {
   });
 }
 
-const apiBaseUrl = (process.env.API_BASE_URL || "").replace(/\/$/, "");
+function normalizeApiBaseUrl(raw) {
+  let value = String(raw || "")
+    .trim()
+    .replace(/^API_BASE_URL=/i, "")
+    .replace(/\/$/, "");
+
+  if (value && !/^https?:\/\//i.test(value)) {
+    console.warn(
+      `Ignoring invalid API_BASE_URL (must start with https://): ${value}`,
+    );
+    return "";
+  }
+
+  return value;
+}
+
+const apiBaseUrl = normalizeApiBaseUrl(process.env.API_BASE_URL);
 
 const runtimeConfig = `/**
  * Generated at build time — do not edit by hand.
