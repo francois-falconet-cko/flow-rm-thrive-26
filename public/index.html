@@ -201,7 +201,20 @@
           <p class="subtitle" id="sectionSubtitle">
             Lift conversion by ~5% with smart, local payment defaults for every customer
           </p>
+          <ul class="benefit-list header-benefits" id="headerBenefits" hidden></ul>
         </header>
+
+        <div class="brand-toolbar" id="brandToolbar" hidden>
+          <div
+            class="merchant-brand-grid"
+            id="merchantBrandGrid"
+            role="listbox"
+            aria-label="Simulate merchant brand"
+          ></div>
+          <p class="simulating" id="brandSimulatingLabel">
+            Simulating: <span id="simBrand">GO Deliver</span> · Desktop
+          </p>
+        </div>
 
         <section class="content-grid" id="contentGrid" data-section="boost">
           <div class="flow-panel">
@@ -212,7 +225,7 @@
             </form>
           </div>
 
-          <aside class="context-panel" aria-label="Shopper context">
+          <aside class="context-panel" id="boostContext" aria-label="Shopper context">
             <ul class="benefit-list">
               <li>
                 <span class="benefit-check" aria-hidden="true">
@@ -258,12 +271,22 @@
               <span id="simCurrency">USD</span>
             </p>
           </aside>
+
+          <aside
+            class="context-panel brand-summary-panel"
+            id="brandContext"
+            aria-label="Brand order summary"
+            hidden
+          >
+            <!-- Populated by app.js from BrandConfig -->
+          </aside>
         </section>
       </main>
     </div>
 
     <script src="https://checkout-web-components.checkout.com/index.js"></script>
     <script src="country-config.js"></script>
+    <script src="brand-config.js"></script>
     <script src="flow-controller.js"></script>
     <script src="app.js"></script>
   </body>
