@@ -4,7 +4,8 @@
   "description": "An example Flow implementation",
   "main": "server.js",
   "scripts": {
-    "start": "node server.js"
+    "start": "node server.js",
+    "build": "mkdir -p dist && rm -rf dist/* && cp -R public/. dist/"
   },
   "author": "checkout.com",
   "license": "ISC",
