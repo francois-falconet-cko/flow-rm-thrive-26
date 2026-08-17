@@ -81,7 +81,7 @@ window.FlowController = (() => {
     if (container) container.innerHTML = "";
   }
 
-  async function mountFlow(country, session) {
+  async function mountFlow(options, session) {
     const key = await loadPublicKey();
     const container = flowContainer();
 
@@ -89,16 +89,33 @@ window.FlowController = (() => {
       throw new Error("Missing #flow-container");
     }
 
-    const { locale = "en-US", ...restFlowOptions } = country.flowOptions || {};
+    const {
+      locale = "en-US",
+      appearance,
+      componentOptions,
+      code = "flow",
+      flowOptions = {},
+    } = options || {};
+
+    const {
+      locale: _ignoredLocale,
+      appearance: _ignoredAppearance,
+      componentOptions: nestedComponentOptions,
+      ...restFlowOptions
+    } = flowOptions;
 
     checkout = await CheckoutWebComponents({
       publicKey: key,
       environment: "sandbox",
-      locale,
+      locale: flowOptions.locale || locale,
       paymentSession: session,
+      ...(appearance ? { appearance } : {}),
+      ...(componentOptions || nestedComponentOptions
+        ? { componentOptions: componentOptions || nestedComponentOptions }
+        : {}),
       ...restFlowOptions,
       onReady: () => {
-        console.log("Flow onReady", country.code);
+        console.log("Flow onReady", code);
       },
       onPaymentCompleted: (_component, paymentResponse) => {
         console.log("Create Payment with PaymentId: ", paymentResponse.id);
@@ -117,6 +134,24 @@ window.FlowController = (() => {
     flowComponent.mount(container);
   }
 
+  function countryMountOptions(country) {
+    return {
+      code: country?.code || "country",
+      locale: country?.flowOptions?.locale || "en-US",
+      flowOptions: country?.flowOptions || {},
+    };
+  }
+
+  function brandMountOptions(brand) {
+    return {
+      code: brand?.id || "brand",
+      locale: brand?.flowOptions?.locale || "en-US",
+      appearance: brand?.appearance,
+      componentOptions: brand?.flowOptions?.componentOptions,
+      flowOptions: brand?.flowOptions || {},
+    };
+  }
+
   async function refreshWithNewSession(country) {
     if (!country.sessionKey) {
       throw new Error(
@@ -128,7 +163,7 @@ window.FlowController = (() => {
     try {
       unmountFlow();
       paymentSession = await createPaymentSession(country.sessionKey);
-      await mountFlow(country, paymentSession);
+      await mountFlow(countryMountOptions(country), paymentSession);
       activeCountry = country;
     } finally {
       setLoading(false);
@@ -143,11 +178,40 @@ window.FlowController = (() => {
     setLoading(true);
     try {
       unmountFlow();
-      await mountFlow(country, paymentSession);
+      await mountFlow(countryMountOptions(country), paymentSession);
       activeCountry = country;
     } finally {
       setLoading(false);
     }
+  }
+
+  /**
+   * Remount Flow with a merchant brand appearance (same payment session).
+   */
+  function applyBrand(brand) {
+    refreshQueue = refreshQueue
+      .catch(() => {})
+      .then(async () => {
+        if (!brand) return;
+
+        if (!paymentSession) {
+          const fallbackCountry = window.CountryConfig.getDefault();
+          await refreshWithNewSession(fallbackCountry);
+        }
+
+        setLoading(true);
+        try {
+          unmountFlow();
+          await mountFlow(brandMountOptions(brand), paymentSession);
+        } finally {
+          setLoading(false);
+        }
+      })
+      .catch((error) => {
+        console.error("Brand Flow remount failed:", error);
+      });
+
+    return refreshQueue;
   }
 
   /**
@@ -187,5 +251,6 @@ window.FlowController = (() => {
     getActiveCountry,
     refreshWithNewSession,
     remountFrontendOnly,
+    applyBrand,
   };
 })();

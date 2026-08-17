@@ -138,7 +138,11 @@ function setSection(sectionKey) {
     setSectionView(section.view);
 
     if (section.view === "brand") {
-      selectMerchantBrand(activeMerchantBrand || BrandConfig.getDefault());
+      const brand = activeMerchantBrand || BrandConfig.getDefault();
+      // Brand demos always start from the US payment-session baseline,
+      // then remount Flow with the selected brand appearance.
+      selectCountry(CountryConfig.getDefault());
+      selectMerchantBrand(brand);
     }
 
     header.classList.remove("is-switching");
@@ -266,7 +270,8 @@ function selectMerchantBrand(brand) {
     });
   }
 
-  // Appearance customization for Flow will be wired later
+  // Remount Flow with this brand's appearance (same US payment session)
+  FlowController.applyBrand(brand);
 }
 
 function initMerchantBrands() {

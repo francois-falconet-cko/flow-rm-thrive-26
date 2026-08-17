@@ -1,8 +1,65 @@
 /**
  * Merchant brand demos for "Brand It Your Way".
- * Flow appearance is left unchanged for now — only the right-hand summary swaps.
+ * Each brand can define a Flow `appearance` (+ optional flowOptions).
+ * @see https://www.checkout.com/docs/payments/accept-payments/accept-a-payment-on-your-website/customize-your-flow-integration
  */
 window.BrandConfig = (() => {
+  const FALLBACK_SANS =
+    '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif';
+  const FALLBACK_MONO =
+    'Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace';
+
+  // Distinct typeface per merchant brand (Flow appearance.fontFamily)
+  const FONTS = {
+    goDeliver: `"Nunito", ${FALLBACK_SANS}`,
+    travelMe: `"Manrope", ${FALLBACK_SANS}`,
+    pagoda: `"Space Grotesk", ${FALLBACK_SANS}`,
+    solar: `"JetBrains Mono", ${FALLBACK_MONO}`,
+    pureglow: `"Outfit", ${FALLBACK_SANS}`,
+    a7: `"Source Code Pro", ${FALLBACK_MONO}`,
+    walle: `"Chakra Petch", ${FALLBACK_SANS}`,
+  };
+
+  function fontStyles(fontFamily) {
+    return {
+      button: {
+        fontFamily,
+        fontSize: "16px",
+        fontWeight: 700,
+        letterSpacing: 0,
+        lineHeight: "24px",
+      },
+      label: {
+        fontFamily,
+        fontSize: "14px",
+        fontWeight: 500,
+        letterSpacing: 0,
+        lineHeight: "20px",
+      },
+      subheading: {
+        fontFamily,
+        fontSize: "16px",
+        fontWeight: 700,
+        letterSpacing: 0,
+        lineHeight: "24px",
+      },
+      footnote: {
+        fontFamily,
+        fontSize: "13px",
+        fontWeight: 400,
+        letterSpacing: 0,
+        lineHeight: "18px",
+      },
+      input: {
+        fontFamily,
+        fontSize: "16px",
+        fontWeight: 400,
+        letterSpacing: 0,
+        lineHeight: "24px",
+      },
+    };
+  }
+
   const BRANDS = [
     {
       id: "go-deliver",
@@ -11,6 +68,30 @@ window.BrandConfig = (() => {
       icon: { letter: "G", bg: "#7B5CFF", color: "#fff" },
       summaryTitle: "Order summary",
       layout: "go-deliver",
+      flowOptions: {
+        locale: "en-US",
+        componentOptions: {
+          card: {
+            displayCardholderName: "top",
+          },
+        },
+      },
+      appearance: {
+        colorAction: "#7B5CFF",
+        colorBackground: "#FFFFFF",
+        colorBorder: "#E6E6E6",
+        colorDisabled: "#BDBDBD",
+        colorError: "#E5484D",
+        colorFormBackground: "#FFFFFF",
+        colorFormBorder: "#D0D0D0",
+        colorInverse: "#FFFFFF",
+        colorOutline: "#7B5CFF",
+        colorPrimary: "#111111",
+        colorSecondary: "#6F6F6F",
+        colorSuccess: "#1DB954",
+        borderRadius: ["6px", "6px"],
+        ...fontStyles(FONTS.goDeliver),
+      },
     },
     {
       id: "travelme",
@@ -19,6 +100,30 @@ window.BrandConfig = (() => {
       icon: { letter: "T", bg: "#2F6BFF", color: "#fff" },
       summaryTitle: "Trip summary",
       layout: "travelme",
+      flowOptions: {
+        locale: "en-US",
+        componentOptions: {
+          card: {
+            displayCardholderName: "top",
+          },
+        },
+      },
+      appearance: {
+        colorAction: "#2F6BFF",
+        colorBackground: "#FFFFFF",
+        colorBorder: "#E6E6E6",
+        colorDisabled: "#BDBDBD",
+        colorError: "#E5484D",
+        colorFormBackground: "#FFFFFF",
+        colorFormBorder: "#D0D0D0",
+        colorInverse: "#FFFFFF",
+        colorOutline: "#2F6BFF",
+        colorPrimary: "#111111",
+        colorSecondary: "#6F6F6F",
+        colorSuccess: "#1DB954",
+        borderRadius: ["6px", "6px"],
+        ...fontStyles(FONTS.travelMe),
+      },
     },
     {
       id: "pagoda",
@@ -27,6 +132,30 @@ window.BrandConfig = (() => {
       icon: { letter: "P", bg: "#C6F000", color: "#111" },
       summaryTitle: "Transfer summary",
       layout: "pagoda",
+      flowOptions: {
+        locale: "en-US",
+        componentOptions: {
+          card: {
+            displayCardholderName: "top",
+          },
+        },
+      },
+      appearance: {
+        colorAction: "#C6F000",
+        colorBackground: "#181818",
+        colorBorder: "#3A3A3A",
+        colorDisabled: "#5A5A5A",
+        colorError: "#FF5A5A",
+        colorFormBackground: "#111111",
+        colorFormBorder: "#3A3A3A",
+        colorInverse: "#111111",
+        colorOutline: "#C6F000",
+        colorPrimary: "#FFFFFF",
+        colorSecondary: "#A0A0A0",
+        colorSuccess: "#C6F000",
+        borderRadius: ["6px", "6px"],
+        ...fontStyles(FONTS.pagoda),
+      },
     },
     {
       id: "solar",
@@ -35,6 +164,30 @@ window.BrandConfig = (() => {
       icon: { letter: "S", bg: "#111", color: "#fff", border: "#fff" },
       summaryTitle: "Investment summary",
       layout: "solar",
+      flowOptions: {
+        locale: "en-US",
+        componentOptions: {
+          card: {
+            displayCardholderName: "top",
+          },
+        },
+      },
+      appearance: {
+        colorAction: "#FF5A1F",
+        colorBackground: "#121212",
+        colorBorder: "#3A3A3A",
+        colorDisabled: "#5A5A5A",
+        colorError: "#FF5A5A",
+        colorFormBackground: "#1A1A1A",
+        colorFormBorder: "#3A3A3A",
+        colorInverse: "#FFFFFF",
+        colorOutline: "#FF5A1F",
+        colorPrimary: "#FFFFFF",
+        colorSecondary: "#A0A0A0",
+        colorSuccess: "#2ECC71",
+        borderRadius: ["4px", "4px"],
+        ...fontStyles(FONTS.solar),
+      },
     },
     {
       id: "pureglow",
@@ -43,6 +196,30 @@ window.BrandConfig = (() => {
       icon: { letter: "P", bg: "#fff", color: "#111" },
       summaryTitle: "Order summary",
       layout: "pureglow",
+      flowOptions: {
+        locale: "en-US",
+        componentOptions: {
+          card: {
+            displayCardholderName: "top",
+          },
+        },
+      },
+      appearance: {
+        colorAction: "#111111",
+        colorBackground: "#FFFFFF",
+        colorBorder: "#E6E6E6",
+        colorDisabled: "#BDBDBD",
+        colorError: "#E5484D",
+        colorFormBackground: "#FFFFFF",
+        colorFormBorder: "#CCCCCC",
+        colorInverse: "#FFFFFF",
+        colorOutline: "#111111",
+        colorPrimary: "#111111",
+        colorSecondary: "#6F6F6F",
+        colorSuccess: "#1DB954",
+        borderRadius: ["4px", "4px"],
+        ...fontStyles(FONTS.pureglow),
+      },
     },
     {
       id: "a7",
@@ -51,6 +228,30 @@ window.BrandConfig = (() => {
       icon: { letter: "A7", bg: "#B44DFF", color: "#fff" },
       summaryTitle: "Order summary",
       layout: "a7",
+      flowOptions: {
+        locale: "en-US",
+        componentOptions: {
+          card: {
+            displayCardholderName: "top",
+          },
+        },
+      },
+      appearance: {
+        colorAction: "#B44DFF",
+        colorBackground: "#121212",
+        colorBorder: "#333333",
+        colorDisabled: "#5A5A5A",
+        colorError: "#FF5A5A",
+        colorFormBackground: "#1A1A1A",
+        colorFormBorder: "#333333",
+        colorInverse: "#FFFFFF",
+        colorOutline: "#B44DFF",
+        colorPrimary: "#FFFFFF",
+        colorSecondary: "#A0A0A0",
+        colorSuccess: "#2ECC71",
+        borderRadius: ["4px", "4px"],
+        ...fontStyles(FONTS.a7),
+      },
     },
     {
       id: "walle",
@@ -59,6 +260,30 @@ window.BrandConfig = (() => {
       icon: { letter: "W", bg: "#111", color: "#fff", border: "#fff" },
       summaryTitle: "Order summary",
       layout: "walle",
+      flowOptions: {
+        locale: "en-US",
+        componentOptions: {
+          card: {
+            displayCardholderName: "top",
+          },
+        },
+      },
+      appearance: {
+        colorAction: "#111111",
+        colorBackground: "#FFFFFF",
+        colorBorder: "#E6E6E6",
+        colorDisabled: "#BDBDBD",
+        colorError: "#E5484D",
+        colorFormBackground: "#FFFFFF",
+        colorFormBorder: "#CCCCCC",
+        colorInverse: "#FFFFFF",
+        colorOutline: "#111111",
+        colorPrimary: "#111111",
+        colorSecondary: "#6F6F6F",
+        colorSuccess: "#1DB954",
+        borderRadius: ["4px", "4px"],
+        ...fontStyles(FONTS.walle),
+      },
     },
   ];
 
