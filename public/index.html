@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Checkout.com — Flow & Remember Me</title>
+    <title>Checkout.com — Flow &amp; Remember Me</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -25,20 +25,13 @@
     <div class="app">
       <aside class="sidebar" id="sidebar">
         <div class="sidebar-top">
-          <div class="brand">
-            <div class="brand-text">
-              <span class="brand-name">Checkout.com</span>
-              <span class="brand-tag">Flow &amp; Remember Me</span>
-            </div>
-          </div>
-
           <button
             class="sidebar-toggle"
             id="sidebarToggle"
             type="button"
             aria-label="Toggle menu"
             aria-expanded="false"
-            aria-controls="sidebarNav"
+            aria-controls="accordion"
           >
             <span></span>
             <span></span>
@@ -46,241 +39,589 @@
           </button>
         </div>
 
-        <nav class="sidebar-nav" id="sidebarNav" aria-label="Explore Flow">
-          <div class="nav-group">
-            <p class="nav-label">Explore Flow</p>
-            <ul class="nav-list">
-              <li>
-                <button
-                  class="nav-btn is-active"
-                  type="button"
-                  data-section="boost"
-                  aria-current="page"
+        <div class="accordion" id="accordion">
+          <!-- BOOST PERFORMANCE -->
+          <section class="acc is-open" data-section="boost">
+            <h2 class="acc-heading">
+              <button
+                class="acc-head"
+                type="button"
+                aria-expanded="true"
+                aria-controls="accBodyBoost"
+                data-acc-toggle
+              >
+                <span class="acc-icon" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" fill="none">
+                    <path
+                      d="M3 17.5 9 11l4 3.5 7.5-8"
+                      stroke="currentColor"
+                      stroke-width="1.9"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    />
+                    <path
+                      d="M15.5 6.5h5v5"
+                      stroke="currentColor"
+                      stroke-width="1.9"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    />
+                  </svg>
+                </span>
+                <span class="acc-title">Boost performance</span>
+              </button>
+            </h2>
+
+            <div class="acc-body" id="accBodyBoost">
+              <p class="acc-lede">
+                Lift conversion by ~5% with smart, local payment defaults for every customer.
+                Accept payments from global customers in their preferred methods, then optimize
+                by currency, device, and more with smart defaults.
+              </p>
+
+              <ul class="check-list">
+                <li>Surface relevant payment options automatically by device, location, and currency</li>
+                <li>5% average acceptance-rate uplift</li>
+                <li>18.5% fewer authentication challenges with Flow</li>
+              </ul>
+
+              <div class="acc-block">
+                <p class="acc-label">Coming soon</p>
+                <ul class="soon-list">
+                  <li>
+                    Sort payment methods dynamically by shopper context -
+                    <strong>Q3 2026</strong>
+                  </li>
+                  <li>
+                    Scan card details with the camera to cut entry friction and lift conversion -
+                    <strong>Q3 2026</strong>
+                  </li>
+                </ul>
+              </div>
+
+              <div class="acc-block">
+                <p class="acc-label">Interactive</p>
+                <p class="acc-block-title">Preview</p>
+
+                <div class="preview-toggle" role="group" aria-label="Preview device">
+                  <button
+                    class="preview-btn is-active"
+                    type="button"
+                    data-preview="desktop"
+                    aria-pressed="true"
+                  >
+                    <span class="preview-btn-icon" aria-hidden="true">
+                      <svg viewBox="0 0 24 24" fill="none">
+                        <rect
+                          x="2.5"
+                          y="4"
+                          width="19"
+                          height="13"
+                          rx="2"
+                          stroke="currentColor"
+                          stroke-width="1.8"
+                        />
+                        <path
+                          d="M9 20.5h6"
+                          stroke="currentColor"
+                          stroke-width="1.8"
+                          stroke-linecap="round"
+                        />
+                      </svg>
+                    </span>
+                    <span>Desktop</span>
+                  </button>
+                  <button
+                    class="preview-btn"
+                    type="button"
+                    data-preview="mobile"
+                    aria-pressed="false"
+                  >
+                    <span class="preview-btn-icon" aria-hidden="true">
+                      <svg viewBox="0 0 24 24" fill="none">
+                        <rect
+                          x="7"
+                          y="2.5"
+                          width="10"
+                          height="19"
+                          rx="2.2"
+                          stroke="currentColor"
+                          stroke-width="1.8"
+                        />
+                        <path
+                          d="M11 18.7h2"
+                          stroke="currentColor"
+                          stroke-width="1.8"
+                          stroke-linecap="round"
+                        />
+                      </svg>
+                    </span>
+                    <span>Mobile</span>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <!-- GO GLOBAL -->
+          <section class="acc" data-section="global">
+            <h2 class="acc-heading">
+              <button
+                class="acc-head"
+                type="button"
+                aria-expanded="false"
+                aria-controls="accBodyGlobal"
+                data-acc-toggle
+              >
+                <span class="acc-icon" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" fill="none">
+                    <circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.9" />
+                    <path
+                      d="M3 12h18M12 3c2.5 2.8 3.8 5.8 3.8 9S14.5 18.2 12 21c-2.5-2.8-3.8-5.8-3.8-9S9.5 5.8 12 3z"
+                      stroke="currentColor"
+                      stroke-width="1.9"
+                    />
+                  </svg>
+                </span>
+                <span class="acc-title">Go global in few clicks</span>
+              </button>
+            </h2>
+
+            <div class="acc-body" id="accBodyGlobal">
+              <p class="acc-lede">
+                Flow dynamically offers the most relevant payment methods from our global
+                network to all your customers – wherever they are. All with a one-time
+                integration.
+              </p>
+
+              <ul class="check-list">
+                <li>42+ payment methods across 20+ languages from one integration</li>
+                <li>Offer local payment methods without writing a line of code</li>
+                <li>Methods auto-sorted and filtered by shopper location, currency and device</li>
+              </ul>
+
+              <div class="acc-block">
+                <p class="acc-label">Coming soon</p>
+                <ul class="soon-list">
+                  <li>
+                    New APMs: Open banking (Pay by bank), Blik recurring -
+                    <strong>Q3 2026</strong>
+                  </li>
+                  <li>
+                    New APMs: CashApp, Stablecoin, Samsung Pay - <strong>Q4 2026</strong>
+                  </li>
+                </ul>
+              </div>
+
+              <div class="acc-block">
+                <p class="acc-label">Interactive</p>
+                <p class="acc-block-title">Select a country</p>
+
+                <div
+                  class="country-grid"
+                  id="countryGrid"
+                  role="listbox"
+                  aria-label="Select a country"
                 >
-                  <span class="nav-icon" aria-hidden="true">
-                    <svg viewBox="0 0 24 24" fill="none">
-                      <path
-                        d="M4 18V14M9 18V9M14 18V12M19 18V6"
-                        stroke="currentColor"
-                        stroke-width="2"
-                        stroke-linecap="round"
-                      />
-                    </svg>
-                  </span>
-                  <span>Boost Performance and Conversion</span>
-                </button>
-              </li>
-              <li>
-                <button class="nav-btn" type="button" data-section="smarter">
-                  <span class="nav-icon" aria-hidden="true">
-                    <svg viewBox="0 0 24 24" fill="none">
-                      <circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="2" />
-                      <path
-                        d="M12 3v2M12 19v2M3 12h2M19 12h2M5.6 5.6l1.4 1.4M17 17l1.4 1.4M5.6 18.4 7 17M17 7l1.4-1.4"
-                        stroke="currentColor"
-                        stroke-width="2"
-                        stroke-linecap="round"
-                      />
-                    </svg>
-                  </span>
-                  <span>A Smarter Way to Pay</span>
-                </button>
-              </li>
-              <li>
-                <button class="nav-btn" type="button" data-section="brand">
-                  <span class="nav-icon" aria-hidden="true">
-                    <svg viewBox="0 0 24 24" fill="none">
-                      <path
-                        d="M12 3l1.8 4.8L19 9.5l-4 3.2L16.2 18 12 15.4 7.8 18l1.2-5.3-4-3.2 5.2-1.7L12 3z"
-                        stroke="currentColor"
-                        stroke-width="1.8"
-                        stroke-linejoin="round"
-                      />
-                    </svg>
-                  </span>
-                  <span>Brand It Your Way</span>
-                </button>
-              </li>
-              <li>
-                <button class="nav-btn" type="button" data-section="global">
-                  <span class="nav-icon" aria-hidden="true">
-                    <svg viewBox="0 0 24 24" fill="none">
-                      <circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="2" />
-                      <path
-                        d="M3 12h18M12 3c2.5 2.8 3.8 5.8 3.8 9S14.5 18.2 12 21c-2.5-2.8-3.8-5.8-3.8-9S9.5 5.8 12 3z"
-                        stroke="currentColor"
-                        stroke-width="2"
-                      />
-                    </svg>
-                  </span>
-                  <span>Go Global in a Few Clicks</span>
-                </button>
-              </li>
-              <li>
-                <button class="nav-btn" type="button" data-section="compliance">
-                  <span class="nav-icon" aria-hidden="true">
-                    <svg viewBox="0 0 24 24" fill="none">
-                      <path
-                        d="M12 3l8 3v5c0 5-3.5 8.5-8 10-4.5-1.5-8-5-8-10V6l8-3z"
-                        stroke="currentColor"
-                        stroke-width="2"
-                        stroke-linejoin="round"
-                      />
-                      <path
-                        d="M9 12l2 2 4-4"
-                        stroke="currentColor"
-                        stroke-width="2"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                      />
-                    </svg>
-                  </span>
-                  <span>Easy Compliance</span>
-                </button>
-              </li>
-            </ul>
-          </div>
+                  <!-- Populated by app.js -->
+                </div>
+              </div>
+            </div>
+          </section>
 
-          <div class="nav-group">
-            <p class="nav-label">Coming Soon</p>
-            <ul class="nav-list">
-              <li>
-                <button class="nav-btn is-soon" type="button" disabled>
-                  <span class="nav-icon" aria-hidden="true">
-                    <svg viewBox="0 0 24 24" fill="none">
-                      <rect
-                        x="3"
-                        y="5"
-                        width="18"
-                        height="14"
-                        rx="2"
-                        stroke="currentColor"
-                        stroke-width="2"
-                      />
-                      <path
-                        d="M3 9h18"
-                        stroke="currentColor"
-                        stroke-width="2"
-                      />
-                    </svg>
-                  </span>
-                  <span>Multi-PSP Support</span>
-                </button>
-              </li>
-              <li>
-                <button class="nav-btn is-soon" type="button" disabled>
-                  <span class="nav-icon" aria-hidden="true">
-                    <svg viewBox="0 0 24 24" fill="none">
-                      <path
-                        d="M12 11a3 3 0 100-6 3 3 0 000 6z"
-                        stroke="currentColor"
-                        stroke-width="2"
-                      />
-                      <path
-                        d="M5 20c1.5-3 4-4.5 7-4.5S17.5 17 19 20"
-                        stroke="currentColor"
-                        stroke-width="2"
-                        stroke-linecap="round"
-                      />
-                    </svg>
-                  </span>
-                  <span>Biometric Authentication</span>
-                </button>
-              </li>
-            </ul>
-          </div>
-        </nav>
+          <!-- BRAND IT YOUR WAY -->
+          <section class="acc" data-section="brand">
+            <h2 class="acc-heading">
+              <button
+                class="acc-head"
+                type="button"
+                aria-expanded="false"
+                aria-controls="accBodyBrand"
+                data-acc-toggle
+              >
+                <span class="acc-icon" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" fill="none">
+                    <path
+                      d="M12 3.5a8.5 8.5 0 100 17c1.4 0 2-.9 2-1.8 0-1.9 2-1.2 3.4-1.9A5.2 5.2 0 0020.5 12c0-4.7-3.8-8.5-8.5-8.5z"
+                      stroke="currentColor"
+                      stroke-width="1.8"
+                      stroke-linejoin="round"
+                    />
+                    <circle cx="8.6" cy="10.4" r="1.2" fill="currentColor" />
+                    <circle cx="12" cy="8" r="1.2" fill="currentColor" />
+                    <circle cx="15.4" cy="10.4" r="1.2" fill="currentColor" />
+                  </svg>
+                </span>
+                <span class="acc-title">Brand it your way</span>
+              </button>
+            </h2>
 
-        <p class="sidebar-footer">Thrive Newport Beach</p>
+            <div class="acc-body" id="accBodyBrand">
+              <p class="acc-lede">
+                A high-performing checkout that still feels like your brand. Match your fonts,
+                colours and borders, render in your customer's language, and keep every
+                optimisation running underneath.
+              </p>
+
+              <ul class="check-list">
+                <li>Fonts, colours and borders tuned to your brand — no loss of built-in optimisation</li>
+                <li>Renders in 20+ languages, including right-to-left</li>
+                <li>Responsive by default — adapts to any screen or device</li>
+              </ul>
+
+              <div class="acc-block">
+                <p class="acc-label">Coming soon</p>
+                <ul class="soon-list">
+                  <li>More customisation options - <strong>Q4 2026</strong></li>
+                </ul>
+              </div>
+
+              <div class="acc-block">
+                <p class="acc-label">Interactive</p>
+                <p class="acc-block-title">Select a theme</p>
+
+                <div
+                  class="merchant-brand-grid"
+                  id="merchantBrandGrid"
+                  role="listbox"
+                  aria-label="Select a theme"
+                ></div>
+
+                <p class="simulating" id="brandSimulatingLabel">
+                  Simulating: <span id="simBrand">GO Deliver</span>
+                </p>
+              </div>
+            </div>
+          </section>
+
+          <!-- A SMARTER WAY TO PAY -->
+          <section class="acc" data-section="smarter">
+            <h2 class="acc-heading">
+              <button
+                class="acc-head"
+                type="button"
+                aria-expanded="false"
+                aria-controls="accBodySmarter"
+                data-acc-toggle
+              >
+                <span class="acc-icon" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" fill="none">
+                    <rect
+                      x="2.5"
+                      y="5.5"
+                      width="19"
+                      height="13"
+                      rx="2.5"
+                      stroke="currentColor"
+                      stroke-width="1.8"
+                    />
+                    <path
+                      d="M2.5 10h19"
+                      stroke="currentColor"
+                      stroke-width="1.8"
+                    />
+                    <circle cx="17.5" cy="14.5" r="1.4" fill="currentColor" />
+                  </svg>
+                </span>
+                <span class="acc-title">A smarter way to pay</span>
+              </button>
+            </h2>
+
+            <div class="acc-body" id="accBodySmarter">
+              <p class="acc-lede">
+                Remember Me lets shoppers save their card details once, then check out in
+                seconds across the Checkout.com network — including when they shop with you for
+                the first time.
+              </p>
+
+              <ul class="check-list">
+                <li><strong>Up to 88% faster checkout</strong> for returning shoppers</li>
+                <li><strong>Up to 7pp higher acceptance rates</strong> for returning users</li>
+                <li>
+                  <strong>No additional integration</strong> when you're already live with Flow
+                </li>
+              </ul>
+
+              <div class="acc-block">
+                <p class="acc-label">Coming soon</p>
+                <ul class="soon-list">
+                  <li>
+                    <strong>Coming in Q4</strong>: Biometric authentication for an even faster
+                    returning checkout
+                  </li>
+                  <li>
+                    <strong>Coming in Q4</strong>: Click to Pay integration, helping more
+                    shoppers access ready-to-use card details from their first visit
+                  </li>
+                </ul>
+              </div>
+
+              <div class="acc-block">
+                <p class="acc-label">Interactive</p>
+                <p class="acc-block-title">Enable Remember Me</p>
+
+                <div class="choice-toggle" role="group" aria-label="Enable Remember Me">
+                  <button class="choice-btn is-active" type="button" data-rm-mode="checkbox">
+                    Checkbox
+                  </button>
+                  <button class="choice-btn" type="button" data-rm-mode="embedded">
+                    Embedded
+                  </button>
+                </div>
+
+                <p class="acc-block-title acc-block-title--sub">Choose a journey</p>
+
+                <div class="choice-toggle" role="group" aria-label="Choose a journey">
+                  <button class="choice-btn is-active" type="button" data-rm-journey="new">
+                    New shopper
+                  </button>
+                  <button class="choice-btn" type="button" data-rm-journey="returning">
+                    Returning shopper
+                  </button>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <!-- EASY COMPLIANCE -->
+          <section class="acc" data-section="compliance">
+            <h2 class="acc-heading">
+              <button
+                class="acc-head"
+                type="button"
+                aria-expanded="false"
+                aria-controls="accBodyCompliance"
+                data-acc-toggle
+              >
+                <span class="acc-icon" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" fill="none">
+                    <path
+                      d="M12 3l8 3v5c0 5-3.5 8.5-8 10-4.5-1.5-8-5-8-10V6l8-3z"
+                      stroke="currentColor"
+                      stroke-width="1.8"
+                      stroke-linejoin="round"
+                    />
+                    <path
+                      d="M9 12l2 2 4-4"
+                      stroke="currentColor"
+                      stroke-width="1.8"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    />
+                  </svg>
+                </span>
+                <span class="acc-title">Easy compliance</span>
+              </button>
+            </h2>
+
+            <div class="acc-body" id="accBodyCompliance">
+              <p class="acc-lede">
+                Meet certification standards without the burden. Flow captures and tokenises
+                card data inside Checkout-managed components, keeps 3DS and fraud tooling on by
+                default, and helps shrink your PCI scope — no extra integration required.
+              </p>
+
+              <ul class="check-list">
+                <li>PCI DSS by design — reduce scope toward SAQ A</li>
+                <li>3D Secure and card validation out of the box</li>
+                <li>Device fingerprinting detects and prevents fraud</li>
+              </ul>
+
+              <div class="compliance-badges">
+                <span class="pci-badge" aria-label="PCI DSS compliant">
+                  <span class="pci-badge-mark">PCI</span>
+                  <span class="pci-badge-text">
+                    <span class="pci-badge-dss">DSS</span>
+                    <span class="pci-badge-fine">COMPLIANT</span>
+                  </span>
+                </span>
+
+                <span class="compliance-badge">
+                  <span class="compliance-badge-icon" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" fill="none">
+                      <path
+                        d="M12 3l7.5 2.8v5c0 4.7-3.2 8-7.5 9.4-4.3-1.4-7.5-4.7-7.5-9.4v-5L12 3z"
+                        stroke="currentColor"
+                        stroke-width="1.7"
+                        stroke-linejoin="round"
+                      />
+                      <path
+                        d="M9 12.2l2 2 4-4"
+                        stroke="currentColor"
+                        stroke-width="1.7"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                      />
+                    </svg>
+                  </span>
+                  Encrypted Payment
+                </span>
+              </div>
+            </div>
+          </section>
+        </div>
       </aside>
 
-      <main class="main">
-        <header class="content-header" id="contentHeader">
-          <p class="eyebrow" id="sectionEyebrow">Boost Performance and Conversion</p>
-          <h1 id="sectionTitle">Your Checkout, Upgraded</h1>
-          <p class="subtitle" id="sectionSubtitle">
-            Lift conversion by ~5% with smart, local payment defaults for every customer
-          </p>
-          <ul class="benefit-list header-benefits" id="headerBenefits" hidden></ul>
-        </header>
-
-        <div class="brand-toolbar" id="brandToolbar" hidden>
-          <div
-            class="merchant-brand-grid"
-            id="merchantBrandGrid"
-            role="listbox"
-            aria-label="Simulate merchant brand"
-          ></div>
-          <p class="simulating" id="brandSimulatingLabel">
-            Simulating: <span id="simBrand">GO Deliver</span> · Desktop
-          </p>
-        </div>
-
-        <section class="content-grid" id="contentGrid" data-section="boost">
-          <div class="flow-panel">
-            <form class="flow-form" onsubmit="return false;">
-              <div id="flow-container"></div>
-              <span id="error-message"></span>
-              <span id="successful-payment-message"></span>
-            </form>
-          </div>
-
-          <aside class="context-panel" id="boostContext" aria-label="Shopper context">
-            <ul class="benefit-list">
-              <li>
-                <span class="benefit-check" aria-hidden="true">
-                  <svg viewBox="0 0 20 20" fill="none">
-                    <circle cx="10" cy="10" r="10" fill="#1DB954" />
-                    <path
-                      d="M6 10.2l2.4 2.4L14 7.2"
-                      stroke="#fff"
-                      stroke-width="1.8"
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                    />
-                  </svg>
-                </span>
-                <span>Sort payment methods dynamically by shopper context</span>
-              </li>
-              <li>
-                <span class="benefit-check" aria-hidden="true">
-                  <svg viewBox="0 0 20 20" fill="none">
-                    <circle cx="10" cy="10" r="10" fill="#1DB954" />
-                    <path
-                      d="M6 10.2l2.4 2.4L14 7.2"
-                      stroke="#fff"
-                      stroke-width="1.8"
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                    />
-                  </svg>
-                </span>
-                <span
-                  >Surface relevant payment options automatically by device, location, and
-                  currency</span
-                >
-              </li>
-            </ul>
-
-            <div class="country-grid" id="countryGrid" role="listbox" aria-label="Simulate country">
-              <!-- Populated by app.js -->
+      <main class="stage" id="stage" data-preview="desktop" data-section="boost">
+        <!-- Desktop / web preview -->
+        <div class="mock mock-web" id="mockWeb">
+          <div class="web-main">
+            <div class="web-head">
+              <h1 class="web-title">
+                Hi, Pay <span id="webMerchant">TravelMe.com</span>
+              </h1>
+              <p class="web-amount" id="webAmount">€577.00</p>
             </div>
 
-            <p class="simulating" id="simulatingLabel">
-              Simulating: <span id="simCountry">United States</span> · Desktop ·
-              <span id="simCurrency">USD</span>
-            </p>
-          </aside>
+            <div class="flow-slot" id="flowSlotDesktop"></div>
+          </div>
 
-          <aside
-            class="context-panel brand-summary-panel"
-            id="brandContext"
-            aria-label="Brand order summary"
-            hidden
-          >
-            <!-- Populated by app.js from BrandConfig -->
+          <aside class="web-summary" id="webSummary" aria-label="Order summary">
+            <!-- Populated by app.js (default order or brand summary) -->
           </aside>
-        </section>
+        </div>
+
+        <!-- Mobile preview -->
+        <div class="mock mock-mobile" id="mockMobile">
+          <div class="phone">
+            <div class="phone-status">
+              <span class="phone-time">9:41</span>
+              <span class="phone-status-icons" aria-hidden="true">
+                <svg class="ico-signal" viewBox="0 0 18 12" fill="currentColor">
+                  <rect x="0" y="8" width="3" height="4" rx="1" />
+                  <rect x="5" y="6" width="3" height="6" rx="1" />
+                  <rect x="10" y="3" width="3" height="9" rx="1" />
+                  <rect x="15" y="0" width="3" height="12" rx="1" />
+                </svg>
+                <svg class="ico-wifi" viewBox="0 0 16 12" fill="none">
+                  <path
+                    d="M1 4.2A10 10 0 0115 4.2M3.4 6.8a6.6 6.6 0 019.2 0M6 9.4a3 3 0 014 0"
+                    stroke="currentColor"
+                    stroke-width="1.5"
+                    stroke-linecap="round"
+                  />
+                </svg>
+                <svg class="ico-battery" viewBox="0 0 26 12" fill="none">
+                  <rect
+                    x="0.75"
+                    y="0.75"
+                    width="22"
+                    height="10.5"
+                    rx="3"
+                    stroke="currentColor"
+                    stroke-width="1.2"
+                  />
+                  <rect x="2.5" y="2.5" width="18.5" height="7" rx="2" fill="currentColor" />
+                  <path
+                    d="M24.6 4.2v3.6"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                  />
+                </svg>
+              </span>
+            </div>
+
+            <header class="phone-header">
+              <div class="phone-header-left">
+                <button class="phone-icon-btn" type="button" aria-label="Menu">
+                  <svg viewBox="0 0 24 24" fill="none">
+                    <path
+                      d="M4 7h16M4 12h16M4 17h16"
+                      stroke="currentColor"
+                      stroke-width="1.8"
+                      stroke-linecap="round"
+                    />
+                  </svg>
+                </button>
+                <button class="phone-icon-btn" type="button" aria-label="Account">
+                  <svg viewBox="0 0 24 24" fill="none">
+                    <circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.7" />
+                    <circle cx="12" cy="10" r="3" stroke="currentColor" stroke-width="1.7" />
+                    <path
+                      d="M6.2 19c1.3-2.3 3.4-3.5 5.8-3.5s4.5 1.2 5.8 3.5"
+                      stroke="currentColor"
+                      stroke-width="1.7"
+                      stroke-linecap="round"
+                    />
+                  </svg>
+                </button>
+              </div>
+
+              <p class="phone-logo">
+                <span class="phone-logo-mark" id="phoneMerchantMark">TravelMe</span
+                ><span class="phone-logo-tld" id="phoneMerchantTld">.com</span>
+              </p>
+
+              <div class="phone-header-right">
+                <button class="phone-icon-btn" type="button" aria-label="Search">
+                  <svg viewBox="0 0 24 24" fill="none">
+                    <circle cx="11" cy="11" r="6.5" stroke="currentColor" stroke-width="1.8" />
+                    <path
+                      d="M16 16l4 4"
+                      stroke="currentColor"
+                      stroke-width="1.8"
+                      stroke-linecap="round"
+                    />
+                  </svg>
+                </button>
+                <button class="phone-icon-btn" type="button" aria-label="Bag">
+                  <svg viewBox="0 0 24 24" fill="none">
+                    <path
+                      d="M5.5 8h13l-1 12h-11l-1-12z"
+                      stroke="currentColor"
+                      stroke-width="1.8"
+                      stroke-linejoin="round"
+                    />
+                    <path
+                      d="M9 8V6.5a3 3 0 016 0V8"
+                      stroke="currentColor"
+                      stroke-width="1.8"
+                      stroke-linecap="round"
+                    />
+                  </svg>
+                </button>
+              </div>
+            </header>
+
+            <div class="phone-scroll">
+              <div class="phone-product">
+                <div class="phone-product-thumb" aria-hidden="true">
+                  <svg viewBox="0 0 48 48" fill="none">
+                    <path
+                      d="M6 27.5l36-11.5c1.6-.5 2.6.4 2.2 1.6-.3.9-1 1.6-2 2l-9 3.6-6.5 11.3c-.3.6-.9 1-1.6 1.1l-2.3.3 2.2-9.5-7.4 2.9-3 4.6-2 .3.6-5.4-4.6-2.6c-1-.6-.9-1.6.4-2.2z"
+                      fill="#8a94a6"
+                    />
+                  </svg>
+                </div>
+                <div class="phone-product-info">
+                  <p class="phone-product-title" id="phoneRoute">JFX &gt; LAX</p>
+                  <p class="phone-product-price" id="phoneAmount">$299.99</p>
+                </div>
+              </div>
+
+              <h2 class="phone-heading">Complete your purchase</h2>
+
+              <div class="flow-slot" id="flowSlotMobile"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Flow on its own, narrow, no merchant chrome -->
+        <div class="mock mock-flow" id="mockFlow">
+          <div class="flow-slot" id="flowSlotBare"></div>
+        </div>
+
+        <!-- Flow lives here and is moved between the previews -->
+        <div class="flow-mount" id="flowMount">
+          <form class="flow-form" onsubmit="return false;">
+            <div id="flow-container"></div>
+            <span id="error-message"></span>
+            <span id="successful-payment-message"></span>
+          </form>
+        </div>
+
+        <p class="thrive-mark" aria-hidden="true">Thrive<br />Newport<br />Beach</p>
       </main>
     </div>
 

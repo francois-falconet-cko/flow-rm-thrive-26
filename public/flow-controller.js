@@ -7,6 +7,7 @@ window.FlowController = (() => {
   let checkout = null;
   let flowComponent = null;
   let activeCountry = null;
+  let lastMountOptions = null;
   let refreshQueue = Promise.resolve();
 
   const flowContainer = () => document.getElementById("flow-container");
@@ -28,7 +29,7 @@ window.FlowController = (() => {
   }
 
   function setLoading(isLoading) {
-    const panel = document.querySelector(".flow-panel");
+    const panel = document.getElementById("flowMount");
     if (!panel) return;
     panel.classList.toggle("is-loading", isLoading);
   }
@@ -84,6 +85,7 @@ window.FlowController = (() => {
   async function mountFlow(options, session) {
     const key = await loadPublicKey();
     const container = flowContainer();
+    lastMountOptions = options;
 
     if (!container) {
       throw new Error("Missing #flow-container");
@@ -186,6 +188,36 @@ window.FlowController = (() => {
   }
 
   /**
+   * Remount Flow with the last used options — e.g. after the mount node moved
+   * to another preview (desktop ↔ mobile). Keeps the same payment session.
+   */
+  function remountCurrent() {
+    refreshQueue = refreshQueue
+      .catch(() => {})
+      .then(async () => {
+        const country = activeCountry || window.CountryConfig.getDefault();
+
+        if (!paymentSession || !lastMountOptions) {
+          await refreshWithNewSession(country);
+          return;
+        }
+
+        setLoading(true);
+        try {
+          unmountFlow();
+          await mountFlow(lastMountOptions, paymentSession);
+        } finally {
+          setLoading(false);
+        }
+      })
+      .catch((error) => {
+        console.error("Flow remount failed:", error);
+      });
+
+    return refreshQueue;
+  }
+
+  /**
    * Remount Flow with a merchant brand appearance (same payment session).
    */
   function applyBrand(brand) {
@@ -251,6 +283,7 @@ window.FlowController = (() => {
     getActiveCountry,
     refreshWithNewSession,
     remountFrontendOnly,
+    remountCurrent,
     applyBrand,
   };
 })();

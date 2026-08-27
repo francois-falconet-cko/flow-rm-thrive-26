@@ -15,7 +15,6 @@ window.BrandConfig = (() => {
     travelMe: `"Manrope", ${FALLBACK_SANS}`,
     pagoda: `"Space Grotesk", ${FALLBACK_SANS}`,
     solar: `"JetBrains Mono", ${FALLBACK_MONO}`,
-    pureglow: `"Outfit", ${FALLBACK_SANS}`,
     a7: `"Source Code Pro", ${FALLBACK_MONO}`,
     walle: `"Chakra Petch", ${FALLBACK_SANS}`,
   };
@@ -63,6 +62,7 @@ window.BrandConfig = (() => {
   const BRANDS = [
     {
       id: "go-deliver",
+      wordmark: { text: "Go Deliver", font: FONTS.goDeliver },
       name: "GO Deliver",
       accent: "#7B5CFF",
       icon: { letter: "G", bg: "#7B5CFF", color: "#fff" },
@@ -95,6 +95,12 @@ window.BrandConfig = (() => {
     },
     {
       id: "travelme",
+      wordmark: {
+        text: "TravelMe",
+        suffix: ".com",
+        color: "#2F6BFF",
+        font: FONTS.travelMe,
+      },
       name: "TravelMe",
       accent: "#2F6BFF",
       icon: { letter: "T", bg: "#2F6BFF", color: "#fff" },
@@ -127,6 +133,7 @@ window.BrandConfig = (() => {
     },
     {
       id: "pagoda",
+      wordmark: { text: "pagoda", font: FONTS.pagoda },
       name: "Pagoda",
       accent: "#C6F000",
       icon: { letter: "P", bg: "#C6F000", color: "#111" },
@@ -159,6 +166,7 @@ window.BrandConfig = (() => {
     },
     {
       id: "solar",
+      wordmark: { text: "SOLAR", font: FONTS.solar, spaced: true },
       name: "Solar",
       accent: "#FF5A1F",
       icon: { letter: "S", bg: "#111", color: "#fff", border: "#fff" },
@@ -190,39 +198,8 @@ window.BrandConfig = (() => {
       },
     },
     {
-      id: "pureglow",
-      name: "Pureglow Lab",
-      accent: "#111111",
-      icon: { letter: "P", bg: "#fff", color: "#111" },
-      summaryTitle: "Order summary",
-      layout: "pureglow",
-      flowOptions: {
-        locale: "en-US",
-        componentOptions: {
-          card: {
-            displayCardholderName: "top",
-          },
-        },
-      },
-      appearance: {
-        colorAction: "#111111",
-        colorBackground: "#FFFFFF",
-        colorBorder: "#E6E6E6",
-        colorDisabled: "#BDBDBD",
-        colorError: "#E5484D",
-        colorFormBackground: "#FFFFFF",
-        colorFormBorder: "#CCCCCC",
-        colorInverse: "#FFFFFF",
-        colorOutline: "#111111",
-        colorPrimary: "#111111",
-        colorSecondary: "#6F6F6F",
-        colorSuccess: "#1DB954",
-        borderRadius: ["4px", "4px"],
-        ...fontStyles(FONTS.pureglow),
-      },
-    },
-    {
       id: "a7",
+      wordmark: { text: "A7 Entertainment", font: FONTS.a7, small: true },
       name: "A7 Entertainment",
       accent: "#B44DFF",
       icon: { letter: "A7", bg: "#B44DFF", color: "#fff" },
@@ -255,6 +232,7 @@ window.BrandConfig = (() => {
     },
     {
       id: "walle",
+      wordmark: { text: "WALLE", font: FONTS.walle, spaced: true },
       name: "WALLE",
       accent: "#111111",
       icon: { letter: "W", bg: "#111", color: "#fff", border: "#fff" },
@@ -287,10 +265,22 @@ window.BrandConfig = (() => {
     },
   ];
 
-  const DEFAULT_BRAND_ID = "go-deliver";
+  const DEFAULT_BRAND_ID = "travelme";
+
+  // Order the theme picker renders in (marketing deck order)
+  const DISPLAY_ORDER = [
+    "travelme",
+    "go-deliver",
+    "solar",
+    "walle",
+    "pagoda",
+    "a7",
+  ];
 
   function getAll() {
-    return BRANDS.slice();
+    return BRANDS.slice().sort(
+      (a, b) => DISPLAY_ORDER.indexOf(a.id) - DISPLAY_ORDER.indexOf(b.id),
+    );
   }
 
   function getById(id) {
@@ -461,47 +451,6 @@ window.BrandConfig = (() => {
     `;
   }
 
-  function renderPureglow(brand) {
-    return `
-      <div class="summary-card summary-card--soft">
-        <div class="summary-line summary-line--item">
-          <div>
-            <p class="summary-strong">Linen Oversized Blazer</p>
-            <p class="summary-muted">Ecru · Size S</p>
-          </div>
-          <span>€89.00</span>
-        </div>
-        <div class="summary-line summary-line--item">
-          <div>
-            <p class="summary-strong">Ribbed Modal Tank</p>
-            <p class="summary-muted">Ivory · Size XS · Qty 2</p>
-          </div>
-          <span>€76.00</span>
-        </div>
-        <div class="summary-line summary-line--item">
-          <div>
-            <p class="summary-strong">Wide-Leg Trousers</p>
-            <p class="summary-muted">Sand · Size S</p>
-          </div>
-          <span>€22.00</span>
-        </div>
-        <div class="summary-line">
-          <span>Standard delivery · 3–5 days</span>
-          <span class="summary-strong">FREE</span>
-        </div>
-        <button type="button" class="summary-promo">Add a promo code</button>
-        <div class="summary-totals summary-totals--inset">
-          <div class="summary-line"><span>Subtotal</span><span>€187.00</span></div>
-          <div class="summary-line"><span>Delivery</span><span>Free</span></div>
-          <div class="summary-total" style="--summary-accent:${brand.accent}">
-            <span>Total</span><span>€187.00</span>
-          </div>
-        </div>
-        <p class="summary-fine">Free returns: 30 days · Secure checkout · Carbon-neutral shipping</p>
-      </div>
-    `;
-  }
-
   function renderA7(brand) {
     return `
       <p class="summary-heading" style="color:${brand.accent}">${brand.summaryTitle}</p>
@@ -576,7 +525,6 @@ window.BrandConfig = (() => {
     travelme: renderTravelMe,
     pagoda: renderPagoda,
     solar: renderSolar,
-    pureglow: renderPureglow,
     a7: renderA7,
     walle: renderWalle,
   };
