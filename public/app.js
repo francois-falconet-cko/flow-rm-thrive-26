@@ -13,10 +13,10 @@
 
 const SECTIONS = {
   boost: { preview: "toggle", summary: "order", merchant: "TravelMe.com" },
-  global: { preview: "flow" },
-  brand: { preview: "desktop", summary: "brand" },
-  smarter: { preview: "desktop", summary: "order", merchant: "TravelMe.com" },
-  compliance: { preview: "flow", country: "us" },
+  global: { preview: "toggle", summary: "order", merchant: "TravelMe.com" },
+  brand: { preview: "toggle", summary: "brand" },
+  smarter: { preview: "toggle", summary: "order", merchant: "TravelMe.com" },
+  compliance: { preview: "toggle", summary: "order", merchant: "TravelMe.com", country: "us" },
 };
 
 const PREVIEW_SLOTS = {
@@ -206,7 +206,12 @@ function fitPreview() {
     parseFloat(stage.style.getPropertyValue("--mock-scale")) || 1;
   const natural = rect.height / currentScale;
 
-  const reserved = parseFloat(getComputedStyle(stage).paddingBottom) || 0;
+  // Keep the preview inside the stage panel: reserve the panel's own bottom
+  // padding plus the viewport padding that frames the mock.
+  const viewport = document.querySelector(".stage-viewport");
+  const reserved =
+    (parseFloat(getComputedStyle(stage).paddingBottom) || 0) +
+    (viewport ? parseFloat(getComputedStyle(viewport).paddingBottom) || 0 : 0);
   const available =
     window.innerHeight - (rect.top + window.scrollY) - reserved;
   if (available <= 0) return;
