@@ -19,6 +19,27 @@ window.BrandConfig = (() => {
     walle: `"Chakra Petch", ${FALLBACK_SANS}`,
   };
 
+  /**
+   * Brand marks exported from the marketing Figma file (public/logos/).
+   * TravelMe keeps its inline mark until the export lands.
+   */
+  const MARKS = {
+    // Paper plane: white upper wing + #003DAC lower fold (per the Figma spec)
+    travelMe: `
+      <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+        <path d="M23.4 0.8 0.6 11.9l9.6 5.1z" fill="#FFFFFF" />
+        <path d="M10.2 17 23.2 12.2 5.2 23.4z" fill="#003DAC" />
+      </svg>`,
+  };
+
+  const LOGOS = {
+    goDeliver: "logos/go-deliver.svg",
+    pagoda: "logos/pagoda.svg",
+    solar: "logos/solar.svg",
+    a7: "logos/a7.svg",
+    walle: "logos/walle.svg",
+  };
+
   function fontStyles(fontFamily) {
     return {
       button: {
@@ -66,6 +87,7 @@ window.BrandConfig = (() => {
       name: "GO Deliver",
       accent: "#7B5CFF",
       icon: { letter: "G", bg: "#7B5CFF", color: "#fff" },
+      iconImg: LOGOS.goDeliver,
       summaryTitle: "Order summary",
       layout: "go-deliver",
       flowOptions: {
@@ -104,6 +126,7 @@ window.BrandConfig = (() => {
       name: "TravelMe",
       accent: "#2F6BFF",
       icon: { letter: "T", bg: "#2F6BFF", color: "#fff" },
+      iconSvg: MARKS.travelMe,
       summaryTitle: "Trip summary",
       layout: "travelme",
       flowOptions: {
@@ -137,6 +160,7 @@ window.BrandConfig = (() => {
       name: "Pagoda",
       accent: "#C6F000",
       icon: { letter: "P", bg: "#C6F000", color: "#111" },
+      iconImg: LOGOS.pagoda,
       summaryTitle: "Transfer summary",
       layout: "pagoda",
       flowOptions: {
@@ -170,6 +194,7 @@ window.BrandConfig = (() => {
       name: "Solar",
       accent: "#FF5A1F",
       icon: { letter: "S", bg: "#111", color: "#fff", border: "#fff" },
+      iconImg: LOGOS.solar,
       summaryTitle: "Investment summary",
       layout: "solar",
       flowOptions: {
@@ -203,6 +228,7 @@ window.BrandConfig = (() => {
       name: "A7 Entertainment",
       accent: "#B44DFF",
       icon: { letter: "A7", bg: "#B44DFF", color: "#fff" },
+      iconImg: LOGOS.a7,
       summaryTitle: "Order summary",
       layout: "a7",
       flowOptions: {
@@ -236,6 +262,7 @@ window.BrandConfig = (() => {
       name: "WALLE",
       accent: "#111111",
       icon: { letter: "W", bg: "#111", color: "#fff", border: "#fff" },
+      iconImg: LOGOS.walle,
       summaryTitle: "Order summary",
       layout: "walle",
       flowOptions: {
@@ -270,11 +297,11 @@ window.BrandConfig = (() => {
   // Order the theme picker renders in (marketing deck order)
   const DISPLAY_ORDER = [
     "travelme",
-    "go-deliver",
-    "solar",
     "walle",
+    "go-deliver",
     "pagoda",
     "a7",
+    "solar",
   ];
 
   function getAll() {

@@ -481,11 +481,24 @@ function initMerchantBrands() {
     button.setAttribute("role", "option");
     button.setAttribute("aria-selected", isDefault ? "true" : "false");
 
+    // A brand mark can be a file (`iconImg`, e.g. "logos/pagoda.svg"), inline
+    // SVG (`iconSvg`), or fall back to the coloured letter tile.
     const icon = document.createElement("span");
-    icon.className = "merchant-brand-icon";
-    icon.style.cssText = iconStyle(brand.icon);
-    icon.textContent = brand.icon.letter;
     icon.setAttribute("aria-hidden", "true");
+    if (brand.iconImg) {
+      icon.className = "merchant-brand-icon merchant-brand-icon--mark";
+      const img = document.createElement("img");
+      img.src = brand.iconImg;
+      img.alt = "";
+      icon.appendChild(img);
+    } else if (brand.iconSvg) {
+      icon.className = "merchant-brand-icon merchant-brand-icon--mark";
+      icon.innerHTML = brand.iconSvg;
+    } else {
+      icon.className = "merchant-brand-icon";
+      icon.style.cssText = iconStyle(brand.icon);
+      icon.textContent = brand.icon.letter;
+    }
 
     const wordmark = brand.wordmark || { text: brand.name };
     const label = document.createElement("span");

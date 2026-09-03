@@ -392,6 +392,16 @@ ul {
   color: var(--text-soft);
 }
 
+/* Explanatory paragraph inside an acc-block (e.g. Interactive hint) */
+.acc-note {
+  margin: 0;
+  max-width: 42rem;
+  font-size: 0.92rem;
+  line-height: 1.5;
+  color: rgba(255, 255, 255, 0.9);
+  font-weight: 400;
+}
+
 .acc-block-title {
   margin: 0 0 0.85rem;
   font-size: 1rem;
@@ -606,20 +616,22 @@ ul {
   font-weight: 500;
 }
 
+/* Pills size to their wordmark (they are not all the same width in the deck)
+   and wrap, so a long label like "A7 Entertainment" never overflows. */
 .merchant-brand-grid {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  display: flex;
+  flex-wrap: wrap;
   gap: 0.6rem;
-  max-width: 26rem;
+  max-width: 34rem;
 }
 
 .merchant-brand-btn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 0.45rem;
-  min-height: 2.5rem;
-  padding: 0.5rem 0.85rem;
+  gap: 0.5rem;
+  min-height: 2.6rem;
+  padding: 0.5rem 1.1rem;
   border-radius: var(--radius-pill);
   border: 1px solid rgba(255, 255, 255, 0.22);
   background: #0d0d0d;
@@ -653,6 +665,27 @@ ul {
   font-weight: 800;
   letter-spacing: -0.03em;
   flex-shrink: 0;
+}
+
+/* SVG brand mark: no tile, the artwork carries its own colours.
+   The exports have different aspect ratios, so pin the height and let the
+   width follow rather than squeezing everything into a square. */
+.merchant-brand-icon--mark {
+  width: auto;
+  height: 1.15rem;
+  max-width: 1.9rem;
+  background: none;
+  border: 0;
+  border-radius: 0;
+}
+
+.merchant-brand-icon--mark svg,
+.merchant-brand-icon--mark img {
+  width: auto;
+  height: 100%;
+  max-width: 100%;
+  display: block;
+  object-fit: contain;
 }
 
 .merchant-brand-word {
@@ -1430,10 +1463,6 @@ ul {
   }
 
   .country-grid {
-    grid-template-columns: 1fr 1fr;
-  }
-
-  .merchant-brand-grid {
     grid-template-columns: 1fr 1fr;
   }
 
