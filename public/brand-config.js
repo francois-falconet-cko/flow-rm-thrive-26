@@ -248,19 +248,57 @@ window.BrandConfig = (() => {
         },
       },
       appearance: {
-        colorAction: "#C6F000",
-        colorBackground: "#181818",
-        colorBorder: "#3A3A3A",
-        colorDisabled: "#5A5A5A",
-        colorError: "#FF5A5A",
-        colorFormBackground: "#111111",
-        colorFormBorder: "#3A3A3A",
-        colorInverse: "#111111",
-        colorOutline: "#C6F000",
-        colorPrimary: "#FFFFFF",
-        colorSecondary: "#A0A0A0",
-        colorSuccess: "#C6F000",
-        borderRadius: ["6px", "6px"],
+        "colorAction": "#B3FF1A",
+        "colorBackground": "#181818",
+        "colorBorder": "#B1B1B1",
+        "colorDisabled": "#B1B1B1",
+        "colorError": "#DC2342",
+        "colorFormBackground": "#FFFFFF",
+        "colorFormBorder": "#B1B1B1",
+        "colorInverse": "#FFFFFF",
+        "colorOutline": "#B3FF1A",
+        "colorPrimary": "#181818",
+        "colorSecondary": "#68686C",
+        "colorSuccess": "#2ECC71",
+        "button": {
+          "fontFamily": "Righteous, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Arial, sans-serif",
+          "fontSize": "16px",
+          "fontWeight": 400,
+          "letterSpacing": "0px",
+          "lineHeight": "24px"
+        },
+        "footnote": {
+          "fontFamily": "Righteous, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Arial, sans-serif",
+          "fontSize": "14px",
+          "fontWeight": 400,
+          "letterSpacing": "0px",
+          "lineHeight": "20px"
+        },
+        "input": {
+          "fontFamily": "Arial, Helvetica, sans-serif",
+          "fontSize": "16px",
+          "fontWeight": 400,
+          "letterSpacing": "0px",
+          "lineHeight": "24px"
+        },
+        "label": {
+          "fontFamily": "Righteous, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Arial, sans-serif",
+          "fontSize": "14px",
+          "fontWeight": 400,
+          "letterSpacing": "0px",
+          "lineHeight": "20px"
+        },
+        "subheading": {
+          "fontFamily": "Righteous, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Arial, sans-serif",
+          "fontSize": "16px",
+          "fontWeight": 400,
+          "letterSpacing": "0px",
+          "lineHeight": "24px"
+        },
+        "borderRadius": [
+          "16px",
+          "16px"
+        ],
         ...fontStyles(FONTS.pagoda),
       },
     },
@@ -282,19 +320,57 @@ window.BrandConfig = (() => {
         },
       },
       appearance: {
-        colorAction: "#FF5A1F",
-        colorBackground: "#121212",
-        colorBorder: "#3A3A3A",
-        colorDisabled: "#5A5A5A",
-        colorError: "#FF5A5A",
-        colorFormBackground: "#1A1A1A",
-        colorFormBorder: "#3A3A3A",
-        colorInverse: "#FFFFFF",
-        colorOutline: "#FF5A1F",
-        colorPrimary: "#FFFFFF",
-        colorSecondary: "#A0A0A0",
-        colorSuccess: "#2ECC71",
-        borderRadius: ["4px", "4px"],
+        "colorAction": "#FF4903",
+        "colorBackground": "#0A0A0C",
+        "colorBorder": "#68686C",
+        "colorDisabled": "#68686C",
+        "colorError": "#DC2342",
+        "colorFormBackground": "#1F1F1F",
+        "colorFormBorder": "#68686C",
+        "colorInverse": "#0A0A0C",
+        "colorOutline": "#FF4903",
+        "colorPrimary": "#F9F9FB",
+        "colorSecondary": "#68686C",
+        "colorSuccess": "#2ECC71",
+        "button": {
+          "fontFamily": "Audiowide, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Arial, sans-serif",
+          "fontSize": "16px",
+          "fontWeight": 400,
+          "letterSpacing": "0px",
+          "lineHeight": "24px"
+        },
+        "footnote": {
+          "fontFamily": "Audiowide, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Arial, sans-serif",
+          "fontSize": "14px",
+          "fontWeight": 400,
+          "letterSpacing": "0px",
+          "lineHeight": "20px"
+        },
+        "input": {
+          "fontFamily": "Arial, Helvetica, sans-serif",
+          "fontSize": "16px",
+          "fontWeight": 400,
+          "letterSpacing": "0px",
+          "lineHeight": "24px"
+        },
+        "label": {
+          "fontFamily": "Audiowide, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Arial, sans-serif",
+          "fontSize": "14px",
+          "fontWeight": 400,
+          "letterSpacing": "0px",
+          "lineHeight": "20px"
+        },
+        "subheading": {
+          "fontFamily": "Audiowide, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Arial, sans-serif",
+          "fontSize": "16px",
+          "fontWeight": 400,
+          "letterSpacing": "0px",
+          "lineHeight": "24px"
+        },
+        "borderRadius": [
+          "8px",
+          "9px"
+        ],
         ...fontStyles(FONTS.solar),
       },
     },
@@ -316,19 +392,57 @@ window.BrandConfig = (() => {
         },
       },
       appearance: {
-        colorAction: "#B44DFF",
-        colorBackground: "#121212",
-        colorBorder: "#333333",
-        colorDisabled: "#5A5A5A",
-        colorError: "#FF5A5A",
-        colorFormBackground: "#1A1A1A",
-        colorFormBorder: "#333333",
-        colorInverse: "#FFFFFF",
-        colorOutline: "#B44DFF",
-        colorPrimary: "#FFFFFF",
-        colorSecondary: "#A0A0A0",
-        colorSuccess: "#2ECC71",
-        borderRadius: ["4px", "4px"],
+         "colorAction": "#AA00FF",
+        "colorBackground": "#0A0A0C",
+        "colorBorder": "#68686C",
+        "colorDisabled": "#64646E",
+        "colorError": "#FF3300",
+        "colorFormBackground": "#1F1F1F",
+        "colorFormBorder": "#68686C",
+        "colorInverse": "#0A0A0C",
+        "colorOutline": "#AA00FF",
+        "colorPrimary": "#F9F9FB",
+        "colorSecondary": "#828388",
+        "colorSuccess": "#2ECC71",
+        "button": {
+          "fontFamily": "Space Grotesk, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Arial, sans-serif",
+          "fontSize": "16px",
+          "fontWeight": 700,
+          "letterSpacing": "0px",
+          "lineHeight": "24px"
+        },
+        "footnote": {
+          "fontFamily": "Space Grotesk, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Arial, sans-serif",
+          "fontSize": "14px",
+          "fontWeight": 400,
+          "letterSpacing": "0px",
+          "lineHeight": "20px"
+        },
+        "input": {
+          "fontFamily": "Arial, Helvetica, sans-serif",
+          "fontSize": "16px",
+          "fontWeight": 400,
+          "letterSpacing": "0px",
+          "lineHeight": "24px"
+        },
+        "label": {
+          "fontFamily": "Space Grotesk, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Arial, sans-serif",
+          "fontSize": "14px",
+          "fontWeight": 500,
+          "letterSpacing": "0px",
+          "lineHeight": "20px"
+        },
+        "subheading": {
+          "fontFamily": "Space Grotesk, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Arial, sans-serif",
+          "fontSize": "16px",
+          "fontWeight": 700,
+          "letterSpacing": "0px",
+          "lineHeight": "24px"
+        },
+        "borderRadius": [
+          "8px",
+          "8px"
+        ],
         ...fontStyles(FONTS.a7),
       },
     },
