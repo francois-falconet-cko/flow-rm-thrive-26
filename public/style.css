@@ -882,119 +882,14 @@ ul {
   color: #1d1d1d;
 }
 
-/* Mobile preview */
+/* Mobile preview: Flow alone, no phone chrome */
 .mock-mobile {
   display: none;
-  justify-content: center;
 }
 
 .stage[data-preview="mobile"] .mock-mobile {
   display: flex;
-}
-
-.phone {
-  width: 24.5rem;
-  max-width: 100%;
-  background: #fff;
-  color: var(--mock-ink);
-  border-radius: 30px;
-  overflow: hidden;
-  box-shadow: 0 30px 70px rgba(0, 0, 0, 0.55);
-  display: flex;
-  flex-direction: column;
-}
-
-.phone-status {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 0.85rem 1.5rem 0.35rem;
-  color: #111;
-}
-
-.phone-time {
-  font-size: 0.9rem;
-  font-weight: 700;
-}
-
-.phone-status-icons {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.4rem;
-  color: #111;
-}
-
-.phone-status-icons svg {
-  display: block;
-}
-
-.ico-signal {
-  width: 1.1rem;
-}
-
-.ico-wifi {
-  width: 1.05rem;
-}
-
-.ico-battery {
-  width: 1.65rem;
-}
-
-.phone-header {
-  display: grid;
-  grid-template-columns: auto minmax(0, 1fr) auto;
-  align-items: center;
-  gap: 0.5rem;
-  padding: 0.65rem 1rem 0.9rem;
-}
-
-.phone-header-left,
-.phone-header-right {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.35rem;
-}
-
-.phone-icon-btn {
-  width: 2rem;
-  height: 2rem;
-  display: inline-flex;
-  align-items: center;
   justify-content: center;
-  color: #111;
-  cursor: default;
-}
-
-.phone-icon-btn svg {
-  width: 1.4rem;
-  height: 1.4rem;
-  display: block;
-}
-
-.phone-logo {
-  margin: 0;
-  text-align: center;
-  font-size: 1.05rem;
-  font-weight: 700;
-  letter-spacing: -0.02em;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-.phone-logo-mark {
-  color: var(--blue);
-}
-
-.phone-logo-tld {
-  color: #111;
-}
-
-/* Flow sits under the phone chrome at a fixed 374px */
-.phone-scroll {
-  display: flex;
-  justify-content: center;
-  padding: 0 0 1.5rem;
 }
 
 /* Flow mount — moved between the previews */
@@ -1337,10 +1232,6 @@ ul {
   .country-grid {
     grid-template-columns: repeat(5, minmax(0, 1fr));
   }
-
-  .stage[data-preview="desktop"] .mock-web {
-    grid-template-columns: minmax(0, 1fr) minmax(12rem, 17rem);
-  }
 }
 
 @media (max-width: 1024px) {
@@ -1376,10 +1267,6 @@ ul {
     align-items: stretch;
   }
 
-  .stage[data-preview="desktop"] .mock-web {
-    grid-template-columns: 1fr;
-  }
-
   .mock {
     zoom: 1;
   }
@@ -1397,9 +1284,5 @@ ul {
 
   .country-grid {
     grid-template-columns: 1fr 1fr;
-  }
-
-  .phone {
-    border-radius: 20px;
   }
 }
