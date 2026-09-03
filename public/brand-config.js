@@ -19,66 +19,15 @@ window.BrandConfig = (() => {
     walle: `"Chakra Petch", ${FALLBACK_SANS}`,
   };
 
-  /**
-   * Brand marks exported from the marketing Figma file (public/logos/).
-   * TravelMe keeps its inline mark until the export lands.
-   */
-  const MARKS = {
-    // Paper plane: white upper wing + #003DAC lower fold (per the Figma spec)
-    travelMe: `
-      <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
-        <path d="M23.4 0.8 0.6 11.9l9.6 5.1z" fill="#FFFFFF" />
-        <path d="M10.2 17 23.2 12.2 5.2 23.4z" fill="#003DAC" />
-      </svg>`,
-  };
-
+  // Brand marks exported from the marketing Figma file.
   const LOGOS = {
+    travelMe: "logos/travelme.svg",
     goDeliver: "logos/go-deliver.svg",
     pagoda: "logos/pagoda.svg",
     solar: "logos/solar.svg",
     a7: "logos/a7.svg",
     walle: "logos/walle.svg",
   };
-
-  function fontStyles(fontFamily) {
-    return {
-      button: {
-        fontFamily,
-        fontSize: "16px",
-        fontWeight: 700,
-        letterSpacing: 0,
-        lineHeight: "24px",
-      },
-      label: {
-        fontFamily,
-        fontSize: "14px",
-        fontWeight: 500,
-        letterSpacing: 0,
-        lineHeight: "20px",
-      },
-      subheading: {
-        fontFamily,
-        fontSize: "16px",
-        fontWeight: 700,
-        letterSpacing: 0,
-        lineHeight: "24px",
-      },
-      footnote: {
-        fontFamily,
-        fontSize: "13px",
-        fontWeight: 400,
-        letterSpacing: 0,
-        lineHeight: "18px",
-      },
-      input: {
-        fontFamily,
-        fontSize: "16px",
-        fontWeight: 400,
-        letterSpacing: 0,
-        lineHeight: "24px",
-      },
-    };
-  }
 
   const BRANDS = [
     {
@@ -150,7 +99,6 @@ window.BrandConfig = (() => {
           "15px",
           "15px"
         ],
-        ...fontStyles(FONTS.goDeliver),
       },
     },
     {
@@ -164,7 +112,7 @@ window.BrandConfig = (() => {
       name: "TravelMe",
       accent: "#2F6BFF",
       icon: { letter: "T", bg: "#2F6BFF", color: "#fff" },
-      iconSvg: MARKS.travelMe,
+      iconImg: LOGOS.travelMe,
       summaryTitle: "Trip summary",
       layout: "travelme",
       flowOptions: {
@@ -176,7 +124,7 @@ window.BrandConfig = (() => {
         },
       },
       appearance: {
-        "colorAction": " #2C6BFF",
+        "colorAction": "#2C6BFF",
         "colorBackground": "#0c0a0a",
         "colorBorder": "#B1B1B1",
         "colorDisabled": "#B1B1B1",
@@ -227,7 +175,6 @@ window.BrandConfig = (() => {
           "4px",
           "4px"
         ],
-        ...fontStyles(FONTS.travelMe),
       },
     },
     {
@@ -299,7 +246,6 @@ window.BrandConfig = (() => {
           "16px",
           "16px"
         ],
-        ...fontStyles(FONTS.pagoda),
       },
     },
     {
@@ -371,7 +317,6 @@ window.BrandConfig = (() => {
           "8px",
           "9px"
         ],
-        ...fontStyles(FONTS.solar),
       },
     },
     {
@@ -443,7 +388,6 @@ window.BrandConfig = (() => {
           "8px",
           "8px"
         ],
-        ...fontStyles(FONTS.a7),
       },
     },
     {
@@ -515,7 +459,6 @@ window.BrandConfig = (() => {
         "0px",
         "0px"
       ],
-        ...fontStyles(FONTS.walle),
       },
     },
   ];
