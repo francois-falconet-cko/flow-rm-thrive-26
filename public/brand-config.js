@@ -138,19 +138,57 @@ window.BrandConfig = (() => {
         },
       },
       appearance: {
-        colorAction: "#2F6BFF",
-        colorBackground: "#FFFFFF",
-        colorBorder: "#E6E6E6",
-        colorDisabled: "#BDBDBD",
-        colorError: "#E5484D",
-        colorFormBackground: "#FFFFFF",
-        colorFormBorder: "#D0D0D0",
-        colorInverse: "#FFFFFF",
-        colorOutline: "#2F6BFF",
-        colorPrimary: "#111111",
-        colorSecondary: "#6F6F6F",
-        colorSuccess: "#1DB954",
-        borderRadius: ["6px", "6px"],
+        "colorAction": " #2C6BFF",
+        "colorBackground": "#0c0a0a",
+        "colorBorder": "#B1B1B1",
+        "colorDisabled": "#B1B1B1",
+        "colorError": "#DC2342",
+        "colorFormBackground": "#FFFFFF",
+        "colorFormBorder": "#B1B1B1",
+        "colorInverse": "#F9F9FB",
+        "colorOutline": "#8DBBFF",
+        "colorPrimary": "#F9F9FB",
+        "colorSecondary": "#68686C",
+        "colorSuccess": "#2ECC71",
+        "button": {
+          "fontFamily": "DM Sans, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Arial, sans-serif",
+          "fontSize": "16px",
+          "fontWeight": 700,
+          "letterSpacing": "0px",
+          "lineHeight": "24px"
+        },
+        "footnote": {
+          "fontFamily": "DM Sans, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Arial, sans-serif",
+          "fontSize": "14px",
+          "fontWeight": 400,
+          "letterSpacing": "0px",
+          "lineHeight": "20px"
+        },
+        "input": {
+          "fontFamily": "Arial, Helvetica, sans-serif",
+          "fontSize": "16px",
+          "fontWeight": 400,
+          "letterSpacing": "0px",
+          "lineHeight": "24px"
+        },
+        "label": {
+          "fontFamily": "DM Sans, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Arial, sans-serif",
+          "fontSize": "14px",
+          "fontWeight": 400,
+          "letterSpacing": "0px",
+          "lineHeight": "20px"
+        },
+        "subheading": {
+          "fontFamily": "DM Sans, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Arial, sans-serif",
+          "fontSize": "16px",
+          "fontWeight": 700,
+          "letterSpacing": "0px",
+          "lineHeight": "24px"
+        },
+        "borderRadius": [
+          "4px",
+          "4px"
+        ],
         ...fontStyles(FONTS.travelMe),
       },
     },
@@ -274,19 +312,57 @@ window.BrandConfig = (() => {
         },
       },
       appearance: {
-        colorAction: "#111111",
-        colorBackground: "#FFFFFF",
-        colorBorder: "#E6E6E6",
-        colorDisabled: "#BDBDBD",
-        colorError: "#E5484D",
-        colorFormBackground: "#FFFFFF",
-        colorFormBorder: "#CCCCCC",
-        colorInverse: "#FFFFFF",
-        colorOutline: "#111111",
-        colorPrimary: "#111111",
-        colorSecondary: "#6F6F6F",
-        colorSuccess: "#1DB954",
-        borderRadius: ["4px", "4px"],
+        "colorAction": "#FFFFFF",
+      "colorBackground": "#000000",
+      "colorBorder": "#9C9D9B",
+      "colorDisabled": "#9C9D9B",
+      "colorError": "#DC2342",
+      "colorFormBackground": "#DDDDDD",
+      "colorFormBorder": "#9C9D9B",
+      "colorInverse": "#FFFFFF",
+      "colorOutline": "#9C9D9B",
+      "colorPrimary": "#9C9D9B",
+      "colorSecondary": "#9C9D9B",
+      "colorSuccess": "#2ECC71",
+      "button": {
+        "fontFamily": "Syne, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Arial, sans-serif",
+        "fontSize": "16px",
+        "fontWeight": 700,
+        "letterSpacing": "0px",
+        "lineHeight": "24px"
+      },
+      "footnote": {
+        "fontFamily": "Syne, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Arial, sans-serif",
+        "fontSize": "14px",
+        "fontWeight": 400,
+        "letterSpacing": "0px",
+        "lineHeight": "20px"
+      },
+      "input": {
+        "fontFamily": "Arial, Helvetica, sans-serif",
+        "fontSize": "16px",
+        "fontWeight": 400,
+        "letterSpacing": "0px",
+        "lineHeight": "24px"
+      },
+      "label": {
+        "fontFamily": "Syne, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Arial, sans-serif",
+        "fontSize": "14px",
+        "fontWeight": 600,
+        "letterSpacing": "0px",
+        "lineHeight": "20px"
+      },
+      "subheading": {
+        "fontFamily": "Syne, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Arial, sans-serif",
+        "fontSize": "16px",
+        "fontWeight": 700,
+        "letterSpacing": "0px",
+        "lineHeight": "24px"
+      },
+      "borderRadius": [
+        "0px",
+        "0px"
+      ],
         ...fontStyles(FONTS.walle),
       },
     },
