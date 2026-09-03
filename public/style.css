@@ -823,49 +823,15 @@ ul {
   box-shadow: 0 24px 60px rgba(0, 0, 0, 0.45);
 }
 
-/* Web preview */
+/* Web preview: no merchant chrome, Flow alone at a fixed 500px */
 .mock-web {
   display: none;
   width: 100%;
-  max-width: 64rem;
-  margin: 0 auto;
-  background: var(--mock-surface);
-  color: var(--mock-ink);
-  border-radius: 8px;
-  overflow: hidden;
 }
 
 .stage[data-preview="desktop"] .mock-web {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(15rem, 21rem);
-}
-
-.web-main {
-  padding: clamp(2.25rem, 3.6vw, 3.5rem) clamp(1.5rem, 2.6vw, 2.75rem)
-    clamp(1.5rem, 2.6vw, 2.75rem);
-  min-width: 0;
-}
-
-.web-head {
-  margin-bottom: clamp(1.5rem, 2.4vw, 2.5rem);
-}
-
-.web-title,
-.web-amount {
-  margin: 0;
-  font-size: clamp(1.5rem, 2.1vw, 2.05rem);
-  font-weight: 700;
-  letter-spacing: -0.02em;
-  line-height: 1.2;
-  color: var(--mock-ink);
-  text-transform: none;
-}
-
-.web-summary {
-  background: #fff;
-  padding: clamp(1.5rem, 2.4vw, 2.5rem) clamp(1.25rem, 1.8vw, 1.85rem);
-  color: var(--mock-ink);
-  font-size: 0.85rem;
+  display: flex;
+  justify-content: center;
 }
 
 .summary-title {
@@ -1024,49 +990,11 @@ ul {
   color: #111;
 }
 
+/* Flow sits under the phone chrome at a fixed 374px */
 .phone-scroll {
-  padding: 0 1.15rem 1.5rem;
-}
-
-.phone-product {
   display: flex;
-  align-items: center;
-  gap: 1rem;
-  padding: 0.85rem;
-  border-radius: 10px;
-  background: #f2f2f2;
-}
-
-.phone-product-thumb {
-  width: 5.5rem;
-  height: 5.5rem;
-  border-radius: 8px;
-  background: #fff;
-  display: inline-flex;
-  align-items: center;
   justify-content: center;
-  flex-shrink: 0;
-}
-
-.phone-product-thumb svg {
-  width: 3.4rem;
-  height: 3.4rem;
-}
-
-.phone-product-title,
-.phone-product-price {
-  margin: 0;
-  font-size: 1.25rem;
-  font-weight: 700;
-  letter-spacing: -0.02em;
-  line-height: 1.3;
-}
-
-.phone-heading {
-  margin: 1.5rem 0 1.1rem;
-  font-size: 1.35rem;
-  font-weight: 700;
-  letter-spacing: -0.02em;
+  padding: 0 0 1.5rem;
 }
 
 /* Flow mount — moved between the previews */
@@ -1080,15 +1008,20 @@ ul {
   color: #111;
 }
 
-/* Flow sits centred in the left column, with no card chrome of its own */
+/* Fixed widths per preview, straight from the marketing spec */
 #flowSlotDesktop {
   display: flex;
   justify-content: center;
 }
 
 #flowSlotDesktop .flow-mount {
-  width: 100%;
-  max-width: 30rem;
+  width: 500px;
+  max-width: 100%;
+}
+
+#flowSlotMobile .flow-mount {
+  width: 374px;
+  max-width: 100%;
 }
 
 #flow-container {

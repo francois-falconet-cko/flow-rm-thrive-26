@@ -516,22 +516,9 @@
         </div>
 
         <div class="stage-viewport">
-          <!-- Desktop / web preview -->
+          <!-- Desktop / web preview: Flow on its own, centred in the stage -->
           <div class="mock mock-web" id="mockWeb">
-            <div class="web-main">
-              <div class="web-head">
-                <h1 class="web-title">
-                  Hi, Pay <span id="webMerchant">TravelMe.com</span>
-                </h1>
-                <p class="web-amount" id="webAmount">€577.00</p>
-              </div>
-
-              <div class="flow-slot" id="flowSlotDesktop"></div>
-            </div>
-
-            <aside class="web-summary" id="webSummary" aria-label="Order summary">
-              <!-- Populated by app.js (default order or brand summary) -->
-            </aside>
+            <div class="flow-slot" id="flowSlotDesktop"></div>
           </div>
 
           <!-- Mobile preview -->
@@ -638,23 +625,6 @@
               </header>
 
               <div class="phone-scroll">
-                <div class="phone-product">
-                  <div class="phone-product-thumb" aria-hidden="true">
-                    <svg viewBox="0 0 48 48" fill="none">
-                      <path
-                        d="M6 27.5l36-11.5c1.6-.5 2.6.4 2.2 1.6-.3.9-1 1.6-2 2l-9 3.6-6.5 11.3c-.3.6-.9 1-1.6 1.1l-2.3.3 2.2-9.5-7.4 2.9-3 4.6-2 .3.6-5.4-4.6-2.6c-1-.6-.9-1.6.4-2.2z"
-                        fill="#8a94a6"
-                      />
-                    </svg>
-                  </div>
-                  <div class="phone-product-info">
-                    <p class="phone-product-title" id="phoneRoute">JFX &gt; LAX</p>
-                    <p class="phone-product-price" id="phoneAmount">$299.99</p>
-                  </div>
-                </div>
-
-                <h2 class="phone-heading">Complete your purchase</h2>
-
                 <div class="flow-slot" id="flowSlotMobile"></div>
               </div>
             </div>
