@@ -499,40 +499,11 @@ ul {
   gap: 1.15rem;
 }
 
+/* PCI DSS lockup — SVG export from Marketing */
 .pci-badge {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.3rem;
-  color: #fff;
-  transform: skewX(-8deg);
-}
-
-.pci-badge-mark {
-  font-size: 1.15rem;
-  font-weight: 800;
-  font-style: italic;
-  letter-spacing: -0.04em;
-}
-
-.pci-badge-text {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  line-height: 1;
-  border-left: 2px solid #fff;
-  padding-left: 0.35rem;
-}
-
-.pci-badge-dss {
-  font-size: 0.8rem;
-  font-weight: 800;
-  letter-spacing: 0.02em;
-}
-
-.pci-badge-fine {
-  font-size: 0.42rem;
-  font-weight: 700;
-  letter-spacing: 0.14em;
+  display: block;
+  width: auto;
+  height: 1.5rem;
 }
 
 .compliance-badge {
