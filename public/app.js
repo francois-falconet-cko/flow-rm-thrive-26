@@ -1,10 +1,9 @@
 /* global CountryConfig, FlowController, BrandConfig */
 
 /**
- * Demo shell: accordion menu on the left (1/3), Flow preview on the right (2/3).
- * Previews: "desktop" (grey merchant page + order summary), "mobile" (phone
- * frame) and "flow" (Flow alone, narrow, no merchant chrome). Flow itself is
- * mounted once and moved between the preview slots — the SDK is remounted
+ * Demo shell: timeline menu on the left (2/5), Flow preview on the right (3/5).
+ * Previews: "desktop" (Flow at 500px) and "mobile" (Flow at 374px). Flow itself
+ * is mounted once and moved between the preview slots — the SDK is remounted
  * after each move.
  *
  * `preview` per section: "toggle" follows the Desktop/Mobile buttons, any
@@ -12,36 +11,36 @@
  */
 
 const SECTIONS = {
-  boost: { preview: "toggle", summary: "order", merchant: "TravelMe.com" },
-  global: { preview: "toggle", summary: "order", merchant: "TravelMe.com" },
-  brand: { preview: "toggle", summary: "brand" },
-  smarter: { preview: "toggle", summary: "order", merchant: "TravelMe.com" },
-  compliance: { preview: "toggle", summary: "order", merchant: "TravelMe.com", country: "us" },
+  boost: { preview: "toggle" },
+  global: { preview: "toggle" },
+  brand: { preview: "toggle", brandThemes: true },
+  smarter: { preview: "toggle", rememberMe: true },
+  compliance: { preview: "toggle", country: "us" },
 };
 
 const PREVIEW_SLOTS = {
   desktop: "flowSlotDesktop",
   mobile: "flowSlotMobile",
-  flow: "flowSlotBare",
 };
 
 const PREVIEW_MOCKS = {
   desktop: "mockWeb",
   mobile: "mockMobile",
-  flow: "mockFlow",
 };
 
-// Static demo order used by both previews.
-// amountMinor mirrors BASE_AMOUNT in lib/country-sessions.js so the mock
-// totals match the amount Flow charges.
-const DEMO_ORDER = {
-  amountMinor: 6540,
-  title: "Dubai Trip",
-  route: "JFX > LAX",
-  legs: [
-    { route: "LHR > DXB", time: "20:35 GMT", flight: "BA0105" },
-    { route: "DXB > LHR", time: "13:10 GMT", flight: "BA0108" },
-  ],
+/**
+ * Remember Me presentation modes. Both stay on the US session (USD, en-US);
+ * only the processing channel differs, via `sessionVariant` — the keys map to
+ * PROCESSING_CHANNEL_VARIANTS in lib/country-sessions.js.
+ */
+function rmMode(variant) {
+  const us = CountryConfig.getDefault();
+  return { ...us, code: variant, sessionVariant: variant };
+}
+
+const RM_VARIANTS = {
+  checkbox: "rm-checkbox",
+  embedded: "rm-embedded",
 };
 
 let activeSection = "boost";
@@ -51,6 +50,11 @@ let previewChoice = "desktop";
 let previewMode = "desktop";
 let activeMerchantBrand = null;
 let brandAppearanceApplied = false;
+// Which Remember Me mode is selected, and whether its session is live.
+let activeRmMode = "checkbox";
+let rmSessionApplied = false;
+// The flag the shopper picked, so we can restore it after a Remember Me demo.
+let selectedCountry = null;
 
 function triggerToast(id) {
   const element = document.getElementById(id);
@@ -59,124 +63,6 @@ function triggerToast(id) {
   setTimeout(function () {
     element.classList.remove("show");
   }, 5000);
-}
-
-/* ---------------- Amount formatting ---------------- */
-
-function currencyFractionDigits(currency) {
-  try {
-    return new Intl.NumberFormat("en", {
-      style: "currency",
-      currency,
-    }).resolvedOptions().maximumFractionDigits;
-  } catch (error) {
-    return 2;
-  }
-}
-
-/**
- * Format the demo order amount in the selected market's currency and locale.
- */
-function formattedAmount() {
-  const country = FlowController.getActiveCountry() || CountryConfig.getDefault();
-  const currency = country.currency || "USD";
-  const digits = currencyFractionDigits(currency);
-  const value = DEMO_ORDER.amountMinor / Math.pow(10, digits);
-
-  try {
-    return new Intl.NumberFormat(
-      country.flowOptions?.locale?.replace("_", "-") || "en-US",
-      { style: "currency", currency },
-    ).format(value);
-  } catch (error) {
-    return `${currency} ${value.toFixed(digits)}`;
-  }
-}
-
-/* ---------------- Previews ---------------- */
-
-function orderSummaryHtml(amount) {
-  const legs = DEMO_ORDER.legs
-    .map(
-      (leg) => `
-        <div class="summary-leg">
-          <span>${leg.route}</span>
-          <span>${leg.time}</span>
-        </div>
-        <div class="summary-leg"><span class="summary-leg-code">${leg.flight}</span></div>
-      `,
-    )
-    .join("");
-
-  return `
-    <p class="summary-title">Summary</p>
-    <div class="summary-item">
-      <span>${DEMO_ORDER.title}</span>
-      <span>${amount}</span>
-    </div>
-    ${legs}
-    <div class="summary-rule"></div>
-    <div class="summary-total">
-      <span>Total amount</span>
-      <span>${amount}</span>
-    </div>
-  `;
-}
-
-function setMerchantLabels(name) {
-  const webMerchant = document.getElementById("webMerchant");
-  const mark = document.getElementById("phoneMerchantMark");
-  const tld = document.getElementById("phoneMerchantTld");
-
-  if (webMerchant) webMerchant.textContent = name;
-
-  // "TravelMe.com" → blue "TravelMe" + dark ".com"
-  const dotIndex = name.lastIndexOf(".");
-  if (mark) mark.textContent = dotIndex > 0 ? name.slice(0, dotIndex) : name;
-  if (tld) tld.textContent = dotIndex > 0 ? name.slice(dotIndex) : "";
-}
-
-function renderPreviewContent() {
-  const section = SECTIONS[activeSection] || SECTIONS.boost;
-  const amount = formattedAmount();
-  const isBrand = section.summary === "brand";
-  const brand = activeMerchantBrand || BrandConfig.getDefault();
-  const merchantName = isBrand
-    ? brand.name
-    : section.merchant || "TravelMe.com";
-
-  setMerchantLabels(merchantName);
-
-  const webAmount = document.getElementById("webAmount");
-  if (webAmount) webAmount.textContent = amount;
-
-  const phoneAmount = document.getElementById("phoneAmount");
-  if (phoneAmount) phoneAmount.textContent = amount;
-
-  const phoneRoute = document.getElementById("phoneRoute");
-  if (phoneRoute) phoneRoute.textContent = DEMO_ORDER.route;
-
-  const summary = document.getElementById("webSummary");
-  if (!summary) return;
-
-  if (isBrand) {
-    summary.innerHTML = BrandConfig.renderSummary(brand);
-    summary.dataset.brandId = brand.id;
-    summary.style.setProperty("--summary-accent", brand.accent);
-
-    summary.querySelectorAll("[data-walle-mode]").forEach((btn) => {
-      btn.addEventListener("click", () => {
-        summary.querySelectorAll("[data-walle-mode]").forEach((item) => {
-          item.classList.toggle("is-active", item === btn);
-        });
-      });
-    });
-    return;
-  }
-
-  delete summary.dataset.brandId;
-  summary.style.removeProperty("--summary-accent");
-  summary.innerHTML = orderSummaryHtml(amount);
 }
 
 /**
@@ -313,7 +199,8 @@ function setSection(sectionKey, { initial = false } = {}) {
       ?.setAttribute("aria-expanded", String(open));
   });
 
-  const isBrand = SECTIONS[sectionKey].summary === "brand";
+  const isBrand = Boolean(SECTIONS[sectionKey].brandThemes);
+  const isRememberMe = Boolean(SECTIONS[sectionKey].rememberMe);
 
   // Move Flow into this section's preview before any appearance work below,
   // so the remount lands in the slot that is on screen.
@@ -326,22 +213,31 @@ function setSection(sectionKey, { initial = false } = {}) {
       const brand = activeMerchantBrand || BrandConfig.getDefault();
       selectCountry(CountryConfig.getDefault());
       selectMerchantBrand(brand);
-    } else if (brandAppearanceApplied) {
-      // Drop the brand appearance when leaving the brand demo.
+    } else if (isRememberMe) {
+      // Remember Me runs on its own processing channel per mode.
       brandAppearanceApplied = false;
-      FlowController.remountFrontendOnly(
-        FlowController.getActiveCountry() || CountryConfig.getDefault(),
-      );
-    }
+      selectRmMode(activeRmMode);
+    } else {
+      if (brandAppearanceApplied) {
+        // Drop the brand appearance when leaving the brand demo.
+        brandAppearanceApplied = false;
+        FlowController.remountFrontendOnly(
+          FlowController.getActiveCountry() || CountryConfig.getDefault(),
+        );
+      } else if (rmSessionApplied) {
+        // Back off the Remember Me channel onto the selected market.
+        selectCountry(selectedCountry || CountryConfig.getDefault());
+      }
 
-    // Sections can pin the market they demo with (e.g. compliance → US).
-    const pinned = SECTIONS[sectionKey].country;
-    if (pinned && !isBrand) {
-      selectCountry(CountryConfig.getByCode(pinned) || CountryConfig.getDefault());
+      // Sections can pin the market they demo with (e.g. compliance → US).
+      const pinned = SECTIONS[sectionKey].country;
+      if (pinned) {
+        selectCountry(
+          CountryConfig.getByCode(pinned) || CountryConfig.getDefault(),
+        );
+      }
     }
   }
-
-  renderPreviewContent();
 }
 
 function initAccordion() {
@@ -380,17 +276,13 @@ function updateCountryUi(country) {
     btn.classList.toggle("is-selected", selected);
     btn.setAttribute("aria-selected", String(selected));
   });
-
-  const simCountry = document.getElementById("simCountry");
-  const simCurrency = document.getElementById("simCurrency");
-  if (simCountry) simCountry.textContent = country.name;
-  if (simCurrency) simCurrency.textContent = country.currency;
 }
 
 async function selectCountry(country) {
+  selectedCountry = country;
+  rmSessionApplied = false;
   updateCountryUi(country);
   await FlowController.selectCountry(country);
-  renderPreviewContent();
 }
 
 function initCountries() {
@@ -437,6 +329,35 @@ function initCountries() {
   });
 }
 
+/* ---------------- Remember Me ---------------- */
+
+function updateRmModeUi(mode) {
+  document.querySelectorAll("[data-rm-mode]").forEach((btn) => {
+    btn.classList.toggle("is-active", btn.dataset.rmMode === mode);
+  });
+}
+
+/**
+ * Load Flow on the Remember Me processing channel for this mode.
+ * Each mode has its own channel, so this always needs a fresh session.
+ */
+async function selectRmMode(mode) {
+  const variant = RM_VARIANTS[mode];
+  if (!variant) return;
+
+  activeRmMode = mode;
+  rmSessionApplied = true;
+  updateRmModeUi(mode);
+
+  await FlowController.applySession(rmMode(variant));
+}
+
+function initRememberMe() {
+  document.querySelectorAll("[data-rm-mode]").forEach((btn) => {
+    btn.addEventListener("click", () => selectRmMode(btn.dataset.rmMode));
+  });
+}
+
 /* ---------------- Merchant brands ---------------- */
 
 function iconStyle(icon) {
@@ -455,11 +376,6 @@ function selectMerchantBrand(brand) {
     btn.classList.toggle("is-selected", selected);
     btn.setAttribute("aria-selected", String(selected));
   });
-
-  const simBrand = document.getElementById("simBrand");
-  if (simBrand) simBrand.textContent = brand.name;
-
-  renderPreviewContent();
 
   // Remount Flow with this brand's appearance (same payment session)
   FlowController.applyBrand(brand);
@@ -535,6 +451,7 @@ async function boot() {
   initPreviewFit();
   initCountries();
   initMerchantBrands();
+  initRememberMe();
 
   // Boost Performance + Desktop + United States is the default demo state.
   // ?section= and ?preview= let a stage demo open on a given slide.
@@ -555,12 +472,15 @@ async function boot() {
   // Create the US session first: the section handlers below decide how to
   // refresh Flow from the country that is already active.
   const defaultCountry = CountryConfig.getDefault();
+  selectedCountry = defaultCountry;
   updateCountryUi(defaultCountry);
   await FlowController.selectCountry(defaultCountry);
 
-  // The brand slide needs its appearance applied, so it boots non-initial.
-  setSection(startSection, { initial: startSection !== "brand" });
-  renderPreviewContent();
+  // The brand and Remember Me slides need their own session/appearance, so
+  // they boot non-initial to run their section handler.
+  setSection(startSection, {
+    initial: startSection !== "brand" && startSection !== "smarter",
+  });
   fitPreview();
 }
 

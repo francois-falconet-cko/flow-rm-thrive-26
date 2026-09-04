@@ -79,7 +79,10 @@ exports.handler = async (event) => {
 
     if (method === "POST" && path === "/create-payment-sessions") {
       const body = parseBody(event);
-      const result = await createPaymentSessionResponse(body.country);
+      const result = await createPaymentSessionResponse(
+        body.country,
+        body.variant,
+      );
       return response(result.statusCode, result.body, origin);
     }
 

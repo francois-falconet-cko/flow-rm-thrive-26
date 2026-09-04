@@ -74,8 +74,6 @@ template {
   --radius-pill: 999px;
   --radius-md: 12px;
   --font: "Plus Jakarta Sans", "Avenir Next", "Segoe UI", sans-serif;
-  --mock-surface: #efefef;
-  --mock-ink: #111111;
 
   /* Timeline geometry — icon size drives the rail + body indent */
   --rail-size: 3.25rem;
@@ -402,17 +400,6 @@ ul {
   font-weight: 400;
 }
 
-.acc-block-title {
-  margin: 0 0 0.85rem;
-  font-size: 1rem;
-  font-weight: 700;
-  letter-spacing: -0.01em;
-}
-
-.acc-block-title--sub {
-  margin-top: 1.4rem;
-}
-
 .soon-list {
   display: flex;
   flex-direction: column;
@@ -578,13 +565,6 @@ ul {
   object-fit: cover;
   flex-shrink: 0;
   background: #333;
-}
-
-.simulating {
-  margin: 0.85rem 0 0;
-  font-size: 0.78rem;
-  color: var(--text-soft);
-  font-weight: 500;
 }
 
 /* Pills size to their wordmark (they are not all the same width in the deck)
@@ -769,31 +749,6 @@ ul {
   animation: rise-in 0.4s ease both;
 }
 
-.stage[data-preview="desktop"] .mock-web,
-.stage[data-preview="mobile"] .mock-mobile,
-.stage[data-preview="flow"] .mock-flow {
-  display: block;
-}
-
-/* Flow-only preview: no merchant chrome, mobile-ish width */
-.mock-flow {
-  display: none;
-}
-
-.mock-flow .flow-slot {
-  display: flex;
-  justify-content: center;
-}
-
-#flowSlotBare .flow-mount {
-  width: 100%;
-  max-width: 27rem;
-  background: #fff;
-  border-radius: 12px;
-  overflow: hidden;
-  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.45);
-}
-
 /* Web preview: no merchant chrome, Flow alone at a fixed 500px */
 .mock-web {
   display: none;
@@ -803,54 +758,6 @@ ul {
 .stage[data-preview="desktop"] .mock-web {
   display: flex;
   justify-content: center;
-}
-
-.summary-title {
-  margin: 0 0 1.35rem;
-  font-size: 1rem;
-  font-weight: 600;
-  color: #3d3d3d;
-}
-
-.summary-item {
-  display: flex;
-  justify-content: space-between;
-  gap: 1rem;
-  font-size: 0.85rem;
-  font-weight: 600;
-  color: #1d1d1d;
-}
-
-.summary-item + .summary-leg {
-  margin-top: 0.45rem;
-}
-
-.summary-leg {
-  display: flex;
-  gap: 0.75rem;
-  font-size: 0.8rem;
-  color: #b3b3b3;
-  font-weight: 500;
-  line-height: 1.5;
-}
-
-.summary-leg-code {
-  color: #b3b3b3;
-}
-
-.summary-rule {
-  height: 1px;
-  margin: 1.6rem 0 1.1rem;
-  background: #e3e3e3;
-}
-
-.summary-total {
-  display: flex;
-  justify-content: space-between;
-  gap: 1rem;
-  font-size: 0.88rem;
-  font-weight: 600;
-  color: #1d1d1d;
 }
 
 /* Mobile preview: Flow alone, no phone chrome */
@@ -916,196 +823,6 @@ ul {
   border: 2px solid rgba(0, 0, 0, 0.2);
   border-top-color: #111;
   animation: spin 0.7s linear infinite;
-}
-
-/* ---------- Brand summary cards (Brand It Your Way) ---------- */
-.summary-heading {
-  margin: 0 0 0.65rem;
-  font-size: 0.82rem;
-  font-weight: 600;
-  color: #6b6b6b;
-}
-
-.summary-card {
-  background: #fff;
-  color: #111;
-  border-radius: 14px;
-  padding: 1rem 1.05rem;
-  border: 1px solid rgba(0, 0, 0, 0.07);
-}
-
-.summary-card + .summary-card,
-.summary-card + .summary-toggle,
-.summary-toggle + .summary-card {
-  margin-top: 0.85rem;
-}
-
-.summary-card--dark {
-  background: #2a2a2a;
-  color: #fff;
-  border-color: rgba(255, 255, 255, 0.1);
-}
-
-.summary-card--soft {
-  background: #f3f3f3;
-  color: #111;
-}
-
-.summary-card--compact {
-  padding: 0.85rem 1rem;
-}
-
-.summary-card-top {
-  display: flex;
-  justify-content: space-between;
-  gap: 0.75rem;
-  align-items: flex-start;
-}
-
-.summary-strong {
-  margin: 0;
-  font-size: 0.95rem;
-  font-weight: 700;
-  line-height: 1.35;
-}
-
-.summary-muted {
-  margin: 0.2rem 0 0;
-  font-size: 0.82rem;
-  color: inherit;
-  opacity: 0.7;
-}
-
-.summary-body {
-  margin: 0.35rem 0 0;
-  font-size: 0.88rem;
-  line-height: 1.45;
-}
-
-.summary-fine {
-  margin: 0.45rem 0 0;
-  font-size: 0.75rem;
-  opacity: 0.65;
-  line-height: 1.4;
-}
-
-.summary-change {
-  color: var(--summary-accent, var(--blue));
-  font-size: 0.82rem;
-  font-weight: 700;
-  white-space: nowrap;
-  padding: 0;
-}
-
-.summary-change:hover {
-  text-decoration: underline;
-}
-
-.summary-totals {
-  display: flex;
-  flex-direction: column;
-  gap: 0.45rem;
-  padding-top: 0.35rem;
-}
-
-.summary-totals--inset {
-  margin-top: 0.75rem;
-  padding-top: 0.75rem;
-  border-top: 1px solid rgba(0, 0, 0, 0.08);
-}
-
-.summary-line {
-  display: flex;
-  justify-content: space-between;
-  gap: 1rem;
-  align-items: flex-start;
-  font-size: 0.9rem;
-}
-
-.summary-line--item {
-  padding: 0.55rem 0;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.06);
-}
-
-.summary-card--dark .summary-line--item,
-.summary-receipt .summary-line--item {
-  border-bottom-color: rgba(255, 255, 255, 0.08);
-}
-
-.summary-card .summary-total {
-  display: flex;
-  justify-content: space-between;
-  gap: 1rem;
-  margin-top: 0.25rem;
-  padding-top: 0.55rem;
-  border-top: 1px solid rgba(255, 255, 255, 0.12);
-  font-size: 1.05rem;
-  font-weight: 800;
-}
-
-.summary-card--soft .summary-total,
-.summary-totals--inset .summary-total {
-  border-top-color: rgba(0, 0, 0, 0.1);
-}
-
-.summary-promo {
-  width: 100%;
-  margin-top: 0.65rem;
-  padding: 0.75rem 0.9rem;
-  border-radius: 10px;
-  background: #fff;
-  color: #111;
-  font-size: 0.88rem;
-  font-weight: 600;
-  text-align: left;
-  border: 1px solid rgba(0, 0, 0, 0.08);
-}
-
-.summary-promo::after {
-  content: "›";
-  float: right;
-  opacity: 0.5;
-}
-
-.summary-receipt {
-  font-family: "SF Mono", "Menlo", "Consolas", monospace;
-  display: flex;
-  flex-direction: column;
-  gap: 0.35rem;
-}
-
-.summary-receipt .summary-strong,
-.summary-receipt .summary-muted,
-.summary-receipt .summary-line {
-  font-family: inherit;
-}
-
-.summary-note {
-  margin: 0.55rem 0;
-  font-size: 0.8rem;
-  font-weight: 600;
-}
-
-.summary-toggle {
-  display: inline-flex;
-  padding: 0.2rem;
-  border-radius: var(--radius-pill);
-  background: rgba(0, 0, 0, 0.06);
-  gap: 0.2rem;
-  width: fit-content;
-}
-
-.summary-toggle-btn {
-  padding: 0.45rem 0.9rem;
-  border-radius: var(--radius-pill);
-  font-size: 0.8rem;
-  font-weight: 700;
-  color: #5a5a5a;
-}
-
-.summary-toggle-btn.is-active {
-  background: #111;
-  color: #fff;
 }
 
 /* ---------- Toasts ---------- */

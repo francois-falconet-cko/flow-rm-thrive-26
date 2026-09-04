@@ -56,7 +56,10 @@ app.get("/config", (_req, res) => {
 
 app.post("/create-payment-sessions", async (req, res) => {
   try {
-    const result = await createPaymentSessionResponse(req.body?.country);
+    const result = await createPaymentSessionResponse(
+      req.body?.country,
+      req.body?.variant,
+    );
     res.status(result.statusCode).json(result.body);
   } catch (error) {
     console.error("Failed to create payment session:", error);

@@ -48,11 +48,22 @@ window.FlowController = (() => {
     return publicKey;
   }
 
-  async function createPaymentSession(sessionKey) {
+  /**
+   * @param {string} sessionKey - country key, e.g. "us"
+   * @param {string} [variant] - processing-channel variant, e.g. "rm-checkbox"
+   */
+  async function createPaymentSession(sessionKey, variant) {
+    const requestBody = {
+      country: sessionKey,
+      ...(variant ? { variant } : {}),
+    };
+
+    console.log("Create payment session", requestBody);
+
     const response = await fetch(apiUrl("/create-payment-sessions"), {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ country: sessionKey }),
+      body: JSON.stringify(requestBody),
     });
 
     const payload = await response.json();
@@ -164,12 +175,34 @@ window.FlowController = (() => {
     setLoading(true);
     try {
       unmountFlow();
-      paymentSession = await createPaymentSession(country.sessionKey);
-      await mountFlow(countryMountOptions(country), paymentSession);
+      paymentSession = await createPaymentSession(
+        country.sessionKey,
+        country.sessionVariant,
+      );
+      // Publish the active country before mounting: anything queued behind us
+      // reads it to decide what to remount, and must not see the old one.
       activeCountry = country;
+      await mountFlow(countryMountOptions(country), paymentSession);
     } finally {
       setLoading(false);
     }
+  }
+
+  /**
+   * Queued entry point for creating a session outside the country picker —
+   * e.g. the Remember Me modes, which reuse the US session on another
+   * processing channel. Serialising through refreshQueue keeps it from
+   * interleaving with preview remounts.
+   */
+  function applySession(country) {
+    refreshQueue = refreshQueue
+      .catch(() => {})
+      .then(() => refreshWithNewSession(country))
+      .catch((error) => {
+        console.error("Flow session refresh failed:", error);
+      });
+
+    return refreshQueue;
   }
 
   async function remountFrontendOnly(country) {
@@ -281,7 +314,9 @@ window.FlowController = (() => {
   return {
     selectCountry,
     getActiveCountry,
-    refreshWithNewSession,
+    // refreshWithNewSession stays private: it does not queue, so callers must
+    // go through applySession() to avoid interleaving with preview remounts.
+    applySession,
     remountFrontendOnly,
     remountCurrent,
     applyBrand,

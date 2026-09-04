@@ -174,7 +174,11 @@ window.CountryConfig = (() => {
     // Not wired yet — update labels only until sessionKey is set
     if (!toCountry.sessionKey) return "ui";
 
-    const sessionChanged = toCountry.sessionKey !== fromCountry?.sessionKey;
+    // A different country *or* a different processing-channel variant (the
+    // Remember Me demos) both need a brand new payment session.
+    const sessionChanged =
+      toCountry.sessionKey !== fromCountry?.sessionKey ||
+      (toCountry.sessionVariant || null) !== (fromCountry?.sessionVariant || null);
     if (sessionChanged) return "session";
 
     const flowChanged =
