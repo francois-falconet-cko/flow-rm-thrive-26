@@ -82,6 +82,7 @@ exports.handler = async (event) => {
       const result = await createPaymentSessionResponse(
         body.country,
         body.variant,
+        body.journey,
       );
       return response(result.statusCode, result.body, origin);
     }

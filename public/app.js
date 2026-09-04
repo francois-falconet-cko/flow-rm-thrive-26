@@ -29,19 +29,33 @@ const PREVIEW_MOCKS = {
 };
 
 /**
- * Remember Me presentation modes. Both stay on the US session (USD, en-US);
- * only the processing channel differs, via `sessionVariant` — the keys map to
- * PROCESSING_CHANNEL_VARIANTS in lib/country-sessions.js.
+ * The Remember Me demo has two dimensions, both riding on the US session
+ * (USD, en-US):
+ * - mode    → which processing channel, via `sessionVariant`
+ *             (PROCESSING_CHANNEL_VARIANTS in lib/country-sessions.js)
+ * - journey → which shopper email, via `sessionJourney`
+ *             (SHOPPER_JOURNEYS in lib/country-sessions.js). "new" gets a
+ *             fresh address per session so Remember Me does not know it.
  */
-function rmMode(variant) {
-  const us = CountryConfig.getDefault();
-  return { ...us, code: variant, sessionVariant: variant };
-}
-
 const RM_VARIANTS = {
   checkbox: "rm-checkbox",
   embedded: "rm-embedded",
 };
+
+const RM_JOURNEYS = {
+  new: "new",
+  returning: "returning",
+};
+
+function rmSessionConfig(mode, journey) {
+  const us = CountryConfig.getDefault();
+  return {
+    ...us,
+    code: `${RM_VARIANTS[mode]}-${RM_JOURNEYS[journey]}`,
+    sessionVariant: RM_VARIANTS[mode],
+    sessionJourney: RM_JOURNEYS[journey],
+  };
+}
 
 let activeSection = "boost";
 // What the Desktop/Mobile buttons are set to…
@@ -50,8 +64,9 @@ let previewChoice = "desktop";
 let previewMode = "desktop";
 let activeMerchantBrand = null;
 let brandAppearanceApplied = false;
-// Which Remember Me mode is selected, and whether its session is live.
+// Which Remember Me mode + journey are selected, and whether the session is live.
 let activeRmMode = "checkbox";
+let activeRmJourney = "new";
 let rmSessionApplied = false;
 // The flag the shopper picked, so we can restore it after a Remember Me demo.
 let selectedCountry = null;
@@ -202,6 +217,8 @@ function setSection(sectionKey, { initial = false } = {}) {
   const isBrand = Boolean(SECTIONS[sectionKey].brandThemes);
   const isRememberMe = Boolean(SECTIONS[sectionKey].rememberMe);
 
+  updateRmHint();
+
   // Move Flow into this section's preview before any appearance work below,
   // so the remount lands in the slot that is on screen.
   applyPreview(sectionPreview(sectionKey), { force: initial });
@@ -214,9 +231,9 @@ function setSection(sectionKey, { initial = false } = {}) {
       selectCountry(CountryConfig.getDefault());
       selectMerchantBrand(brand);
     } else if (isRememberMe) {
-      // Remember Me runs on its own processing channel per mode.
+      // Remember Me runs on its own channel + shopper email per mode/journey.
       brandAppearanceApplied = false;
-      selectRmMode(activeRmMode);
+      applyRmSession();
     } else {
       if (brandAppearanceApplied) {
         // Drop the brand appearance when leaving the brand demo.
@@ -331,30 +348,66 @@ function initCountries() {
 
 /* ---------------- Remember Me ---------------- */
 
-function updateRmModeUi(mode) {
+function updateRmUi() {
   document.querySelectorAll("[data-rm-mode]").forEach((btn) => {
-    btn.classList.toggle("is-active", btn.dataset.rmMode === mode);
+    btn.classList.toggle("is-active", btn.dataset.rmMode === activeRmMode);
   });
+
+  document.querySelectorAll("[data-rm-journey]").forEach((btn) => {
+    btn.classList.toggle(
+      "is-active",
+      btn.dataset.rmJourney === activeRmJourney,
+    );
+  });
+
+  updateRmHint();
 }
 
 /**
- * Load Flow on the Remember Me processing channel for this mode.
- * Each mode has its own channel, so this always needs a fresh session.
+ * The walkthrough sits under Flow and only makes sense for the shopper who
+ * already has cards enrolled — and only while the Remember Me slide is open,
+ * since the hint travels with the Flow mount between previews.
  */
-async function selectRmMode(mode) {
-  const variant = RM_VARIANTS[mode];
-  if (!variant) return;
+function updateRmHint() {
+  const hint = document.getElementById("rmHint");
+  if (!hint) return;
 
-  activeRmMode = mode;
+  hint.hidden =
+    !SECTIONS[activeSection]?.rememberMe || activeRmJourney !== "returning";
+}
+
+/**
+ * Load Flow for the current Remember Me mode + journey. Each combination has
+ * its own channel and shopper email, so this always needs a fresh session.
+ */
+async function applyRmSession() {
   rmSessionApplied = true;
-  updateRmModeUi(mode);
+  updateRmUi();
 
-  await FlowController.applySession(rmMode(variant));
+  await FlowController.applySession(
+    rmSessionConfig(activeRmMode, activeRmJourney),
+  );
+}
+
+function selectRmMode(mode) {
+  if (!RM_VARIANTS[mode]) return Promise.resolve();
+  activeRmMode = mode;
+  return applyRmSession();
+}
+
+function selectRmJourney(journey) {
+  if (!RM_JOURNEYS[journey]) return Promise.resolve();
+  activeRmJourney = journey;
+  return applyRmSession();
 }
 
 function initRememberMe() {
   document.querySelectorAll("[data-rm-mode]").forEach((btn) => {
     btn.addEventListener("click", () => selectRmMode(btn.dataset.rmMode));
+  });
+
+  document.querySelectorAll("[data-rm-journey]").forEach((btn) => {
+    btn.addEventListener("click", () => selectRmJourney(btn.dataset.rmJourney));
   });
 }
 

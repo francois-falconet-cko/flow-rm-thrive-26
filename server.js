@@ -59,6 +59,7 @@ app.post("/create-payment-sessions", async (req, res) => {
     const result = await createPaymentSessionResponse(
       req.body?.country,
       req.body?.variant,
+      req.body?.journey,
     );
     res.status(result.statusCode).json(result.body);
   } catch (error) {

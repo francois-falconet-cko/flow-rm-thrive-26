@@ -51,11 +51,13 @@ window.FlowController = (() => {
   /**
    * @param {string} sessionKey - country key, e.g. "us"
    * @param {string} [variant] - processing-channel variant, e.g. "rm-checkbox"
+   * @param {string} [journey] - shopper journey, "new" or "returning"
    */
-  async function createPaymentSession(sessionKey, variant) {
+  async function createPaymentSession(sessionKey, variant, journey) {
     const requestBody = {
       country: sessionKey,
       ...(variant ? { variant } : {}),
+      ...(journey ? { journey } : {}),
     };
 
     console.log("Create payment session", requestBody);
@@ -178,6 +180,7 @@ window.FlowController = (() => {
       paymentSession = await createPaymentSession(
         country.sessionKey,
         country.sessionVariant,
+        country.sessionJourney,
       );
       // Publish the active country before mounting: anything queued behind us
       // reads it to decide what to remount, and must not see the old one.

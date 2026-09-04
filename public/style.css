@@ -797,6 +797,62 @@ ul {
   max-width: 100%;
 }
 
+/* Returning-shopper walkthrough, under Flow inside the mount so it follows
+   Flow between previews and inherits its 500px / 374px width. */
+.rm-hint {
+  display: block;
+  margin-top: 1.25rem;
+  padding: 1.1rem 1.25rem;
+  border-radius: 12px;
+  background: #1f1f1f;
+  color: rgba(255, 255, 255, 0.92);
+  font-size: 0.88rem;
+  line-height: 1.5;
+}
+
+.rm-hint[hidden] {
+  display: none;
+}
+
+.rm-hint-title {
+  margin: 0 0 0.5rem;
+  font-size: 0.78rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--blue);
+}
+
+.rm-hint-title:not(:first-child) {
+  margin-top: 1.1rem;
+}
+
+.rm-hint-steps {
+  margin: 0;
+  padding-left: 1.15rem;
+  list-style: decimal;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.rm-hint-steps li {
+  display: list-item;
+}
+
+.rm-hint-note {
+  margin: 0;
+}
+
+.rm-hint code {
+  padding: 0.1rem 0.4rem;
+  border-radius: 5px;
+  background: rgba(255, 255, 255, 0.12);
+  font-family: "SF Mono", "Menlo", "Consolas", monospace;
+  font-size: 0.85em;
+  letter-spacing: 0.08em;
+}
+
 #flow-container {
   min-height: 12rem;
 }
