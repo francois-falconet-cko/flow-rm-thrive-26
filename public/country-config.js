@@ -37,8 +37,8 @@ window.CountryConfig = (() => {
       short: "FR",
       name: "France",
       currency: "EUR",
-      sessionKey: null,
-      flowOptions: { locale: "fr" },
+      sessionKey: "fr",
+      flowOptions: { locale: "fr-FR" },
     },
     {
       code: "nl",
