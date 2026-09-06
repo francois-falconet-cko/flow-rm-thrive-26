@@ -734,7 +734,7 @@ ul {
   flex: 1;
   min-width: 0;
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   justify-content: center;
   padding: clamp(0.75rem, 1.8vw, 2rem) 0;
 }
@@ -742,10 +742,10 @@ ul {
 .mock {
   display: none;
   width: 100%;
-  /* Previews are zoomed out (--mock-scale, set by app.js) to fit the viewport.
-     `zoom` — unlike `transform` — shrinks the layout box too, so nothing is
-     clipped and the page still scrolls when Flow grows taller than the fit. */
-  zoom: var(--mock-scale, 1);
+  /* Auto margins centre the preview while there is room, then collapse to 0
+     once Flow is taller than the stage — unlike `align-items: center`, which
+     would overflow upwards and put the top of Flow out of scroll reach. */
+  margin: auto 0;
   animation: rise-in 0.4s ease both;
 }
 
@@ -1009,10 +1009,6 @@ ul {
 
   .stage-viewport {
     align-items: stretch;
-  }
-
-  .mock {
-    zoom: 1;
   }
 }
 

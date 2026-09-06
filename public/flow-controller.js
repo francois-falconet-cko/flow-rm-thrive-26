@@ -12,6 +12,27 @@ window.FlowController = (() => {
 
   const flowContainer = () => document.getElementById("flow-container");
 
+  // Whether Flow is currently rendered. Flips to true on the SDK's onReady and
+  // back to false on unmount, so callers can show UI only alongside Flow.
+  let flowMounted = false;
+  const mountListeners = new Set();
+
+  function setFlowMounted(value) {
+    if (flowMounted === value) return;
+    flowMounted = value;
+    mountListeners.forEach((listener) => listener(flowMounted));
+  }
+
+  /**
+   * Subscribe to Flow appearing/disappearing. Fires immediately with the
+   * current state so callers do not need a separate initial read.
+   */
+  function onMountedChange(listener) {
+    mountListeners.add(listener);
+    listener(flowMounted);
+    return () => mountListeners.delete(listener);
+  }
+
   function apiUrl(path) {
     let base = window.RUNTIME_CONFIG?.API_BASE_URL || "";
     base = String(base).trim().replace(/^API_BASE_URL=/i, "").replace(/\/$/, "");
@@ -90,6 +111,7 @@ window.FlowController = (() => {
 
     flowComponent = null;
     checkout = null;
+    setFlowMounted(false);
 
     const container = flowContainer();
     if (container) container.innerHTML = "";
@@ -131,6 +153,7 @@ window.FlowController = (() => {
       ...restFlowOptions,
       onReady: () => {
         console.log("Flow onReady", code);
+        setFlowMounted(true);
       },
       onPaymentCompleted: (_component, paymentResponse) => {
         console.log("Create Payment with PaymentId: ", paymentResponse.id);
@@ -317,6 +340,7 @@ window.FlowController = (() => {
   return {
     selectCountry,
     getActiveCountry,
+    onMountedChange,
     // refreshWithNewSession stays private: it does not queue, so callers must
     // go through applySession() to avoid interleaving with preview remounts.
     applySession,

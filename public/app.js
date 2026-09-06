@@ -70,6 +70,8 @@ let activeRmJourney = "new";
 let rmSessionApplied = false;
 // The flag the shopper picked, so we can restore it after a Remember Me demo.
 let selectedCountry = null;
+// Whether Flow is on screen — the Remember Me walkthrough waits for it.
+let isFlowMounted = false;
 
 function triggerToast(id) {
   const element = document.getElementById(id);
@@ -78,65 +80,6 @@ function triggerToast(id) {
   setTimeout(function () {
     element.classList.remove("show");
   }, 5000);
-}
-
-/**
- * Zoom the visible preview out so it fits the viewport when it can.
- * Never clips: if the preview is still taller than the window (Flow grows as
- * the shopper opens payment methods), the page scrolls as usual.
- */
-const MIN_PREVIEW_SCALE = 0.7;
-
-function fitPreview() {
-  const stage = document.getElementById("stage");
-  const mock = document.getElementById(PREVIEW_MOCKS[previewMode]);
-  if (!stage || !mock) return;
-
-  // Below the desktop breakpoint the page stacks and scrolls normally.
-  if (window.matchMedia("(max-width: 1024px)").matches) {
-    stage.style.removeProperty("--mock-scale");
-    return;
-  }
-
-  const rect = mock.getBoundingClientRect();
-  if (rect.height <= 0) return;
-
-  // getBoundingClientRect() is already zoomed, so divide it back out to get
-  // the unzoomed height — that keeps this calculation stable across re-runs.
-  const currentScale =
-    parseFloat(stage.style.getPropertyValue("--mock-scale")) || 1;
-  const natural = rect.height / currentScale;
-
-  // Keep the preview inside the stage panel: reserve the panel's own bottom
-  // padding plus the viewport padding that frames the mock.
-  const viewport = document.querySelector(".stage-viewport");
-  const reserved =
-    (parseFloat(getComputedStyle(stage).paddingBottom) || 0) +
-    (viewport ? parseFloat(getComputedStyle(viewport).paddingBottom) || 0 : 0);
-  const available =
-    window.innerHeight - (rect.top + window.scrollY) - reserved;
-  if (available <= 0) return;
-
-  const scale = Math.min(1, Math.max(MIN_PREVIEW_SCALE, available / natural));
-
-  // Only write when it actually moves, so the ResizeObserver settles.
-  if (Math.abs(scale - currentScale) > 0.01) {
-    stage.style.setProperty("--mock-scale", scale.toFixed(3));
-  }
-}
-
-function initPreviewFit() {
-  const schedule = () => window.requestAnimationFrame(fitPreview);
-
-  if (typeof ResizeObserver === "function") {
-    const observer = new ResizeObserver(schedule);
-    Object.values(PREVIEW_MOCKS).forEach((id) => {
-      const element = document.getElementById(id);
-      if (element) observer.observe(element);
-    });
-  }
-
-  window.addEventListener("resize", schedule);
 }
 
 /** Move the Flow mount node into the visible preview. */
@@ -173,7 +116,6 @@ function applyPreview(mode, { force = false } = {}) {
   if (stage) stage.dataset.preview = previewMode;
 
   updatePreviewButtons();
-  fitPreview();
 
   // Flow's iframes do not survive a DOM move, so remount after relocating.
   if (moveFlowMount()) {
@@ -367,13 +309,18 @@ function updateRmUi() {
  * The walkthrough sits under Flow and only makes sense for the shopper who
  * already has cards enrolled — and only while the Remember Me slide is open,
  * since the hint travels with the Flow mount between previews.
+ *
+ * It also waits for Flow to be mounted: otherwise it would show on its own
+ * while the session is still being created, above an empty spinner.
  */
 function updateRmHint() {
   const hint = document.getElementById("rmHint");
   if (!hint) return;
 
   hint.hidden =
-    !SECTIONS[activeSection]?.rememberMe || activeRmJourney !== "returning";
+    !isFlowMounted ||
+    !SECTIONS[activeSection]?.rememberMe ||
+    activeRmJourney !== "returning";
 }
 
 /**
@@ -402,6 +349,13 @@ function selectRmJourney(journey) {
 }
 
 function initRememberMe() {
+  // Flow is remounted on every session change and preview switch, so the
+  // walkthrough follows that state rather than being toggled by hand.
+  FlowController.onMountedChange((mounted) => {
+    isFlowMounted = mounted;
+    updateRmHint();
+  });
+
   document.querySelectorAll("[data-rm-mode]").forEach((btn) => {
     btn.addEventListener("click", () => selectRmMode(btn.dataset.rmMode));
   });
@@ -501,7 +455,6 @@ async function boot() {
   initSidebar();
   initAccordion();
   initPreviewToggle();
-  initPreviewFit();
   initCountries();
   initMerchantBrands();
   initRememberMe();
@@ -534,7 +487,6 @@ async function boot() {
   setSection(startSection, {
     initial: startSection !== "brand" && startSection !== "smarter",
   });
-  fitPreview();
 }
 
 boot();
