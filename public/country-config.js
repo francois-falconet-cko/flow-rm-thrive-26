@@ -149,7 +149,7 @@ window.CountryConfig = (() => {
       short: "SE",
       name: "Sweden",
       currency: "SEK",
-      sessionKey: null,
+      sessionKey: "se",
       flowOptions: { locale: "sv-SE" },
     },
     {
@@ -157,15 +157,15 @@ window.CountryConfig = (() => {
       short: "BE",
       name: "Belgium",
       currency: "EUR",
-      sessionKey: null,
-      flowOptions: { locale: "nl-BE" },
+      sessionKey: "be",
+      flowOptions: { locale: "fr-FR" },
     },
     {
       code: "dk",
       short: "DK",
       name: "Denmark",
       currency: "DKK",
-      sessionKey: null,
+      sessionKey: "dk",
       flowOptions: { locale: "da-DK" },
     },
     {
@@ -173,7 +173,7 @@ window.CountryConfig = (() => {
       short: "NO",
       name: "Norway",
       currency: "NOK",
-      sessionKey: null,
+      sessionKey: "no",
       flowOptions: { locale: "nb-NO" },
     },
     {
@@ -181,8 +181,8 @@ window.CountryConfig = (() => {
       short: "BR",
       name: "Brazil",
       currency: "BRL",
-      sessionKey: null,
-      flowOptions: { locale: "pt-BR" },
+      sessionKey: "br",
+      flowOptions: { locale: "pt-PT" },
     },
   ];
 
