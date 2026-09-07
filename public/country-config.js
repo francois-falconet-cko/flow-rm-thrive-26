@@ -69,8 +69,8 @@ window.CountryConfig = (() => {
       short: "SG",
       name: "Singapore",
       currency: "SGD",
-      sessionKey: null,
-      flowOptions: { locale: "en-SG" },
+      sessionKey: "sg",
+      flowOptions: { locale: "en-GB" },
     },
     {
       code: "hk",
