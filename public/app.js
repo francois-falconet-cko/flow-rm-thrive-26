@@ -267,10 +267,16 @@ function initCountries() {
       button.classList.add("is-pending");
     }
 
+    // Countries with a `flag` use that local SVG export; the rest fall back
+    // to flagcdn until Marketing supplies theirs.
     const flag = document.createElement("img");
     flag.className = "country-flag";
-    flag.src = `https://flagcdn.com/w40/${country.code}.png`;
-    flag.srcset = `https://flagcdn.com/w80/${country.code}.png 2x`;
+    if (country.flag) {
+      flag.src = country.flag;
+    } else {
+      flag.src = `https://flagcdn.com/w40/${country.code}.png`;
+      flag.srcset = `https://flagcdn.com/w80/${country.code}.png 2x`;
+    }
     flag.alt = "";
     flag.width = 22;
     flag.height = 16;
