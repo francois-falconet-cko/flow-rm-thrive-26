@@ -103,7 +103,7 @@ window.BrandConfig = (() => {
       wordmark: {
         text: "TravelMe",
         suffix: ".com",
-        color: "#2F6BFF",
+        color: "#fff",
         font: FONTS.travelMe,
       },
       name: "TravelMe",
