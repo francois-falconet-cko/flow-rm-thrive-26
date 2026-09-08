@@ -101,7 +101,7 @@ window.CountryConfig = (() => {
       short: "JP",
       name: "Japan",
       currency: "JPY",
-      sessionKey: null,
+      sessionKey: "jp",
       flowOptions: { locale: "ja-JP" },
     },
     {
@@ -141,8 +141,8 @@ window.CountryConfig = (() => {
       short: "AU",
       name: "Australia",
       currency: "AUD",
-      sessionKey: null,
-      flowOptions: { locale: "en-AU" },
+      sessionKey: "au",
+      flowOptions: { locale: "en-GB" },
     },
     {
       code: "se",
