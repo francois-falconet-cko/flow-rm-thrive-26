@@ -318,6 +318,12 @@ ul {
   max-width: 46rem;
 }
 
+/* In a 3-col grid carrying only one stat, let the lede eat the empty column so
+   the lone stat lands against the right edge instead of floating mid-row. */
+.acc-lede--span2 {
+  grid-column: span 2;
+}
+
 .stat-list {
   display: flex;
   flex-direction: column;
@@ -676,7 +682,7 @@ ul {
 
 .stage-toolbar {
   display: flex;
-  justify-content: flex-end;
+  justify-content: flex-start;
   flex-shrink: 0;
 }
 
@@ -971,6 +977,12 @@ ul {
   .acc-cols--3 {
     grid-template-columns: 1fr 1fr;
     gap: 1.5rem;
+  }
+
+  /* Only two columns left here — spanning both would push the stat onto its
+     own row, so the lede goes back to a single column. */
+  .acc-lede--span2 {
+    grid-column: auto;
   }
 
   .country-grid {
