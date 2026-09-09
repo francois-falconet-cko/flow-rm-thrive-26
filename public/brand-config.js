@@ -119,7 +119,7 @@ window.BrandConfig = (() => {
       },
       appearance: {
         "colorAction": "#2C6BFF",
-        "colorBackground": "#0c0a0a",
+        "colorBackground": "#ffffff",
         "colorBorder": "#B1B1B1",
         "colorDisabled": "#B1B1B1",
         "colorError": "#DC2342",
@@ -127,7 +127,7 @@ window.BrandConfig = (() => {
         "colorFormBorder": "#B1B1B1",
         "colorInverse": "#F9F9FB",
         "colorOutline": "#8DBBFF",
-        "colorPrimary": "#F9F9FB",
+        "colorPrimary": "#000000",
         "colorSecondary": "#68686C",
         "colorSuccess": "#2ECC71",
         "button": {
@@ -187,7 +187,7 @@ window.BrandConfig = (() => {
       },
       appearance: {
         "colorAction": "#B3FF1A",
-        "colorBackground": "#181818",
+        "colorBackground": "#ffffff",
         "colorBorder": "#B1B1B1",
         "colorDisabled": "#B1B1B1",
         "colorError": "#DC2342",
