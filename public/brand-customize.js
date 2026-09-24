@@ -7,8 +7,11 @@
  * shows exactly what a merchant would write:
  *
  *   componentOptions: {
- *     flow: { paymentMethodOrder: ["googlepay", "card", "paypal", "klarna"] },
- *     card: { displayCardholderName: "top", showPayButton: true },
+ *     flow: {
+ *       paymentMethodOrder: ["googlepay", "card", "paypal", "klarna"],
+ *       showPayButton: true,
+ *     },
+ *     card: { displayCardholderName: "top" },
  *   }
  *
  * The mount layout is the one thing that is not an option object: "default"
@@ -64,12 +67,15 @@ window.BrandCustomize = (() => {
   function getOverrides() {
     return {
       componentOptions: {
+        // showPayButton lives under `flow` on web — it configures Flow
+        // globally. There is no componentOptions.card.showPayButton; the only
+        // per-component override is create(name, { showPayButton }).
         flow: {
           paymentMethodOrder: state.order.slice(),
+          showPayButton: state.showPayButton,
         },
         card: {
           displayCardholderName: state.cardholderName,
-          showPayButton: state.showPayButton,
         },
       },
       layout: {
@@ -250,11 +256,11 @@ window.BrandCustomize = (() => {
     const order = state.order.map((id) => `"${id}"`).join(", ");
     const lines = [
       "componentOptions: {",
-      `  flow: { paymentMethodOrder: [${order}] },`,
-      "  card: {",
-      `    displayCardholderName: "${state.cardholderName}",`,
+      "  flow: {",
+      `    paymentMethodOrder: [${order}],`,
       `    showPayButton: ${state.showPayButton},`,
       "  },",
+      `  card: { displayCardholderName: "${state.cardholderName}" },`,
       "}",
     ];
 

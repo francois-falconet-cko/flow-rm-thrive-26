@@ -723,6 +723,18 @@
                    built by flow-controller.js -->
               <div class="flow-custom" id="flow-custom" hidden></div>
 
+              <!-- Shown when showPayButton is false: the merchant's own
+                   button, driving component.submit() -->
+              <div class="custom-pay" id="customPayRow" hidden>
+                <button class="custom-pay-btn" type="button" id="customPayButton" disabled>
+                  Pay now
+                </button>
+                <p class="custom-pay-note">
+                  Your own button — <code>showPayButton: false</code> then
+                  <code>component.submit()</code>
+                </p>
+              </div>
+
               <span id="error-message"></span>
               <span id="successful-payment-message"></span>
             </form>

@@ -1082,6 +1082,45 @@ ul {
   color: #777;
 }
 
+/* The demo's own pay button, for showPayButton: false */
+.custom-pay {
+  margin-top: 0.9rem;
+}
+
+.custom-pay[hidden] {
+  display: none;
+}
+
+.custom-pay-btn {
+  width: 100%;
+  padding: 0.85rem 1rem;
+  border-radius: 8px;
+  border: 2px dashed var(--blue);
+  background: var(--blue);
+  color: #fff;
+  font-size: 1rem;
+  font-weight: 700;
+}
+
+.custom-pay-btn:disabled {
+  background: #9aa0aa;
+  border-color: #9aa0aa;
+  cursor: not-allowed;
+}
+
+.custom-pay-note {
+  margin: 0.45rem 0 0;
+  font-size: 0.7rem;
+  line-height: 1.5;
+  color: #666;
+  text-align: center;
+}
+
+.custom-pay-note code {
+  font-family: "Source Code Pro", ui-monospace, monospace;
+  font-size: 0.68rem;
+}
+
 /* Fixed widths per preview, straight from the marketing spec */
 #flowSlotDesktop {
   display: flex;

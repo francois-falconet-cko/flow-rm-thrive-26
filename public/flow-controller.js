@@ -13,6 +13,9 @@ window.FlowController = (() => {
   // default layout, or one entry per payment method in the custom layout.
   let mountedComponents = [];
   let slotsRenderedHook = null;
+  // What the demo's own pay button submits when showPayButton is false: the
+  // accordion in the default layout, the card component in the custom one.
+  let submitTarget = null;
 
   const flowContainer = () => document.getElementById("flow-container");
   const customContainer = () => document.getElementById("flow-custom");
@@ -129,8 +132,12 @@ window.FlowController = (() => {
 
     mountedComponents = [];
     flowComponent = null;
+    submitTarget = null;
     checkout = null;
     setFlowMounted(false);
+
+    const payRow = document.getElementById("customPayRow");
+    if (payRow) payRow.hidden = true;
 
     const container = flowContainer();
     if (container) container.innerHTML = "";
@@ -182,7 +189,7 @@ window.FlowController = (() => {
    * div, in the given order. Components the browser or session cannot offer
    * (Apple Pay off Safari, for instance) keep their div but say so.
    */
-  async function mountCustomComponents(names) {
+  async function mountCustomComponents(names, showPayButton) {
     const host = customContainer();
     if (!host) {
       throw new Error("Missing #flow-custom");
@@ -199,7 +206,14 @@ window.FlowController = (() => {
       const body = slot.querySelector(".flow-slot-body");
 
       try {
-        const component = checkout.create(name);
+        // Wallets render their own branded button and cannot be submitted
+        // from a custom one, so showPayButton only applies to card here.
+        const component =
+          name === "card" && showPayButton === false
+            ? checkout.create(name, { showPayButton: false })
+            : checkout.create(name);
+
+        if (name === "card") submitTarget = component;
 
         const available =
           typeof component.isAvailable === "function"
@@ -220,6 +234,47 @@ window.FlowController = (() => {
     }
 
     slotsRenderedHook?.(host);
+  }
+
+  /**
+   * With `showPayButton: false`, Flow renders no button — the merchant is
+   * expected to supply their own and call `submit()` on the component. The
+   * demo does exactly that so the scenario stays payable.
+   */
+  function showCustomPayButton(show) {
+    const row = document.getElementById("customPayRow");
+    const button = document.getElementById("customPayButton");
+    if (!row || !button) return;
+
+    row.hidden = !show;
+    // `isValid()` decides when it lights up; onChange below re-checks.
+    button.disabled = true;
+
+    if (!show || button.dataset.wired === "true") return;
+
+    button.dataset.wired = "true";
+    button.addEventListener("click", async () => {
+      if (!submitTarget?.submit) return;
+
+      button.disabled = true;
+      try {
+        await submitTarget.submit();
+      } catch (error) {
+        console.error("Custom pay button submit failed:", error);
+        button.disabled = false;
+      }
+    });
+  }
+
+  function syncCustomPayButton(component) {
+    const button = document.getElementById("customPayButton");
+    const row = document.getElementById("customPayRow");
+    if (!button || !row || row.hidden) return;
+    if (submitTarget && component && component !== submitTarget) return;
+
+    const valid =
+      typeof component?.isValid === "function" ? component.isValid() : false;
+    button.disabled = !valid;
   }
 
   /** Show the container the active layout mounts into, hide the other. */
@@ -271,6 +326,7 @@ window.FlowController = (() => {
         console.log(
           `onChange() -> isValid: "${component.isValid()}" for "${component.type}"`,
         );
+        syncCustomPayButton(component);
       },
       onError: (component, error) => {
         console.log("onError", error, "Component", component.type);
@@ -278,10 +334,14 @@ window.FlowController = (() => {
     });
 
     const isCustom = layout?.mode === "custom";
+    const showPayButton =
+      (componentOptions || nestedComponentOptions)?.flow?.showPayButton;
+
     applyLayoutVisibility(isCustom);
 
     if (isCustom) {
-      await mountCustomComponents(layout.components || []);
+      await mountCustomComponents(layout.components || [], showPayButton);
+      showCustomPayButton(showPayButton === false);
       return;
     }
 
@@ -291,8 +351,12 @@ window.FlowController = (() => {
     }
 
     flowComponent = checkout.create("flow");
+    submitTarget = flowComponent;
     flowComponent.mount(container);
     mountedComponents = [flowComponent];
+
+    // With the built-in button hidden, the merchant supplies their own.
+    showCustomPayButton(showPayButton === false);
   }
 
   function countryMountOptions(country) {
