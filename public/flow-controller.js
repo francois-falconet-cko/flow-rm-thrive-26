@@ -9,8 +9,24 @@ window.FlowController = (() => {
   let activeCountry = null;
   let lastMountOptions = null;
   let refreshQueue = Promise.resolve();
+  // Every component currently mounted: the single `flow` accordion in the
+  // default layout, or one entry per payment method in the custom layout.
+  let mountedComponents = [];
+  let slotsRenderedHook = null;
 
   const flowContainer = () => document.getElementById("flow-container");
+  const customContainer = () => document.getElementById("flow-custom");
+
+  /**
+   * Payment methods that can be created and mounted as their own component,
+   * each into its own div. Anything else only exists inside the accordion.
+   */
+  const STANDALONE_COMPONENTS = {
+    card: { label: "Card", divId: "div-card" },
+    googlepay: { label: "Google Pay", divId: "div-googlepay" },
+    applepay: { label: "Apple Pay", divId: "div-applepay" },
+    paypal: { label: "PayPal", divId: "div-paypal" },
+  };
 
   // Whether Flow is currently rendered. Flips to true on the SDK's onReady and
   // back to false on unmount, so callers can show UI only alongside Flow.
@@ -103,28 +119,120 @@ window.FlowController = (() => {
   }
 
   function unmountFlow() {
-    try {
-      flowComponent?.unmount?.();
-    } catch (error) {
-      console.warn("Flow unmount warning:", error);
-    }
+    mountedComponents.forEach((component) => {
+      try {
+        component?.unmount?.();
+      } catch (error) {
+        console.warn("Flow unmount warning:", error);
+      }
+    });
 
+    mountedComponents = [];
     flowComponent = null;
     checkout = null;
     setFlowMounted(false);
 
     const container = flowContainer();
     if (container) container.innerHTML = "";
+
+    const custom = customContainer();
+    if (custom) custom.innerHTML = "";
+  }
+
+  /** One bordered, labelled div per component — the point of the demo. */
+  function buildSlot(name, meta) {
+    const slot = document.createElement("div");
+    slot.className = "flow-slot-card";
+    slot.dataset.component = name;
+
+    const head = document.createElement("div");
+    head.className = "flow-slot-head";
+
+    const grip = document.createElement("span");
+    grip.className = "flow-slot-grip";
+    grip.setAttribute("aria-hidden", "true");
+    grip.textContent = "⠿";
+
+    const label = document.createElement("span");
+    label.className = "flow-slot-name";
+    label.textContent = meta.label;
+
+    const divId = document.createElement("code");
+    divId.className = "flow-slot-id";
+    divId.textContent = `#${meta.divId}`;
+
+    head.append(grip, label, divId);
+
+    const body = document.createElement("div");
+    body.className = "flow-slot-body";
+    body.id = meta.divId;
+
+    slot.append(head, body);
+    return slot;
+  }
+
+  function markSlotUnavailable(slot, message) {
+    slot.classList.add("is-unavailable");
+    const body = slot.querySelector(".flow-slot-body");
+    if (body) body.textContent = message;
+  }
+
+  /**
+   * Create each payment method as its own component and mount it into its own
+   * div, in the given order. Components the browser or session cannot offer
+   * (Apple Pay off Safari, for instance) keep their div but say so.
+   */
+  async function mountCustomComponents(names) {
+    const host = customContainer();
+    if (!host) {
+      throw new Error("Missing #flow-custom");
+    }
+
+    host.innerHTML = "";
+
+    for (const name of names) {
+      const meta = STANDALONE_COMPONENTS[name];
+      if (!meta) continue;
+
+      const slot = buildSlot(name, meta);
+      host.appendChild(slot);
+      const body = slot.querySelector(".flow-slot-body");
+
+      try {
+        const component = checkout.create(name);
+
+        const available =
+          typeof component.isAvailable === "function"
+            ? await component.isAvailable()
+            : true;
+
+        if (!available) {
+          markSlotUnavailable(slot, "Not available in this browser or session");
+          continue;
+        }
+
+        await component.mount(body);
+        mountedComponents.push(component);
+      } catch (error) {
+        console.warn(`Could not mount "${name}" component:`, error);
+        markSlotUnavailable(slot, "Could not be mounted");
+      }
+    }
+
+    slotsRenderedHook?.(host);
+  }
+
+  /** Show the container the active layout mounts into, hide the other. */
+  function applyLayoutVisibility(isCustom) {
+    const container = flowContainer();
+    const custom = customContainer();
+    if (container) container.hidden = isCustom;
+    if (custom) custom.hidden = !isCustom;
   }
 
   async function mountFlow(options, session) {
     const key = await loadPublicKey();
-    const container = flowContainer();
     lastMountOptions = options;
-
-    if (!container) {
-      throw new Error("Missing #flow-container");
-    }
 
     const {
       locale = "en-US",
@@ -132,6 +240,7 @@ window.FlowController = (() => {
       componentOptions,
       code = "flow",
       flowOptions = {},
+      layout,
     } = options || {};
 
     const {
@@ -168,8 +277,22 @@ window.FlowController = (() => {
       },
     });
 
+    const isCustom = layout?.mode === "custom";
+    applyLayoutVisibility(isCustom);
+
+    if (isCustom) {
+      await mountCustomComponents(layout.components || []);
+      return;
+    }
+
+    const container = flowContainer();
+    if (!container) {
+      throw new Error("Missing #flow-container");
+    }
+
     flowComponent = checkout.create("flow");
     flowComponent.mount(container);
+    mountedComponents = [flowComponent];
   }
 
   function countryMountOptions(country) {
@@ -180,13 +303,37 @@ window.FlowController = (() => {
     };
   }
 
-  function brandMountOptions(brand) {
+  /**
+   * Merge the brand's own componentOptions with the live customization
+   * controls. Overrides win per option, and `card` is merged key by key so a
+   * brand's `displayCardholderName` is only replaced if the control sets one.
+   */
+  function mergeComponentOptions(base, extra) {
+    if (!base && !extra) return undefined;
+
+    const merged = { ...(base || {}) };
+
+    Object.entries(extra || {}).forEach(([key, value]) => {
+      merged[key] =
+        value && typeof value === "object" && !Array.isArray(value)
+          ? { ...(merged[key] || {}), ...value }
+          : value;
+    });
+
+    return merged;
+  }
+
+  function brandMountOptions(brand, overrides) {
     return {
       code: brand?.id || "brand",
       locale: brand?.flowOptions?.locale || "en-US",
       appearance: brand?.appearance,
-      componentOptions: brand?.flowOptions?.componentOptions,
+      componentOptions: mergeComponentOptions(
+        brand?.flowOptions?.componentOptions,
+        overrides?.componentOptions,
+      ),
       flowOptions: brand?.flowOptions || {},
+      layout: overrides?.layout,
     };
   }
 
@@ -279,7 +426,7 @@ window.FlowController = (() => {
   /**
    * Remount Flow with a merchant brand appearance (same payment session).
    */
-  function applyBrand(brand) {
+  function applyBrand(brand, overrides) {
     refreshQueue = refreshQueue
       .catch(() => {})
       .then(async () => {
@@ -293,7 +440,7 @@ window.FlowController = (() => {
         setLoading(true);
         try {
           unmountFlow();
-          await mountFlow(brandMountOptions(brand), paymentSession);
+          await mountFlow(brandMountOptions(brand, overrides), paymentSession);
         } finally {
           setLoading(false);
         }
@@ -337,10 +484,19 @@ window.FlowController = (() => {
     return activeCountry;
   }
 
+  /**
+   * Called with the custom-layout host every time its slots are rebuilt, so
+   * the drag & drop handlers can be re-attached to the fresh nodes.
+   */
+  function onCustomSlotsRendered(fn) {
+    slotsRenderedHook = fn;
+  }
+
   return {
     selectCountry,
     getActiveCountry,
     onMountedChange,
+    onCustomSlotsRendered,
     // refreshWithNewSession stays private: it does not queue, so callers must
     // go through applySession() to avoid interleaving with preview remounts.
     applySession,

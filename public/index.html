@@ -7,7 +7,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@400;500;700&family=JetBrains+Mono:wght@400;500;700&family=Manrope:wght@400;500;700&family=Nunito:wght@400;500;700&family=Outfit:wght@400;500;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Source+Code+Pro:wght@400;500;700&family=Space+Grotesk:wght@400;500;700&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@400;500;700&family=JetBrains+Mono:wght@400;500;700&family=Manrope:wght@400;500;700&family=Nunito:wght@400;500;700&family=Outfit:wght@400;500;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Source+Code+Pro:wght@400;500;700&family=Space+Grotesk:wght@400;500;700&family=Work+Sans:wght@400;500;600;700&display=swap"
       rel="stylesheet"
     />
     <link rel="stylesheet" href="./style.css" />
@@ -30,6 +30,7 @@
             id="sidebarToggle"
             type="button"
             aria-label="Toggle menu"
+            data-i18n-aria="aria.toggleMenu"
             aria-expanded="false"
             aria-controls="accordion"
           >
@@ -68,13 +69,13 @@
                     />
                   </svg>
                 </span>
-                <span class="acc-title">Boost performance</span>
+                <span class="acc-title" data-i18n="boost.title">Boost performance</span>
               </button>
             </h2>
 
             <div class="acc-body" id="accBodyBoost">
               <div class="acc-cols">
-                <p class="acc-lede">
+                <p class="acc-lede" data-i18n="boost.lede">
                   Lift conversion by ~5% with smart, local payment defaults for every
                   customer. Accept global payment methods out of the box. Flow optimizes
                   by currency, device, and more, automatically.
@@ -83,29 +84,31 @@
                 <ul class="stat-list">
                   <li>
                     <span class="stat-value">25%</span>
-                    <span class="stat-label">
+                    <span class="stat-label" data-i18n="boost.stat1.label">
                       Fewer authentication challenges with Flow vs API
                     </span>
                   </li>
                   <li>
                     <span class="stat-value">35%</span>
-                    <span class="stat-label">Fewer 3DS expiries with Flow vs API</span>
+                    <span class="stat-label" data-i18n="boost.stat2.label">
+                      Fewer 3DS expiries with Flow vs API
+                    </span>
                   </li>
                 </ul>
               </div>
 
               <div class="acc-block">
-                <p class="acc-label">Coming soon</p>
+                <p class="acc-label" data-i18n="boost.comingSoon">Coming soon</p>
                 <ul class="soon-list">
                   <li>
                     <span class="soon-when">Q3 2026</span>
-                    <span class="soon-what">
+                    <span class="soon-what" data-i18n="boost.soon1">
                       Merchants can control the sequence of payment methods.
                     </span>
                   </li>
                   <li>
                     <span class="soon-when">Q3 2026</span>
-                    <span class="soon-what">
+                    <span class="soon-what" data-i18n="boost.soon2">
                       Shoppers can scan their card to fill in details faster.
                     </span>
                   </li>
@@ -113,8 +116,10 @@
               </div>
 
               <div class="acc-block">
-                <p class="acc-label">Try different payment scenarios</p>
-                <p class="acc-note">
+                <p class="acc-label" data-i18n="boost.tryLabel">
+                  Try different payment scenarios
+                </p>
+                <p class="acc-note" data-i18n="boost.tryNote">
                   Try the checkout on the right. Switch payment methods, enter different
                   details, and submit to see how Flow handles errors and responds in real
                   time.
@@ -143,20 +148,22 @@
                     />
                   </svg>
                 </span>
-                <span class="acc-title">Go global in a few clicks</span>
+                <span class="acc-title" data-i18n="global.title">
+                  Go global in a few clicks
+                </span>
               </button>
             </h2>
 
             <div class="acc-body" id="accBodyGlobal">
               <div class="acc-cols acc-cols--3">
-                <p class="acc-lede">
+                <p class="acc-lede" data-i18n="global.lede">
                   Turn on 42+ global APMs instantly without writing a line of code - with
                   one single integration.
                 </p>
 
                 <div class="stat">
                   <span class="stat-value">42+</span>
-                  <span class="stat-label">
+                  <span class="stat-label" data-i18n="global.stat1.label">
                     Payment methods auto-sorted and filtered by shopper location, currency
                     and device
                   </span>
@@ -164,14 +171,16 @@
 
                 <div class="stat">
                   <span class="stat-value">20+</span>
-                  <span class="stat-label">
+                  <span class="stat-label" data-i18n="global.stat2.label">
                     Languages to offer local payment methods from one integration
                   </span>
                 </div>
               </div>
 
               <div class="acc-block">
-                <p class="acc-label">More APMs coming soon</p>
+                <p class="acc-label" data-i18n="global.comingSoon">
+                  More APMs coming soon
+                </p>
                 <ul class="soon-list">
                   <li>
                     <span class="soon-when">Q3 2026</span>
@@ -179,7 +188,7 @@
                   </li>
                   <li>
                     <span class="soon-when">Q4 2026</span>
-                    <span class="soon-what">
+                    <span class="soon-what" data-i18n="global.soon2">
                       Open banking (Pay by bank) • Blik recurring
                     </span>
                   </li>
@@ -187,13 +196,16 @@
               </div>
 
               <div class="acc-block">
-                <p class="acc-label">Explore local payment methods</p>
+                <p class="acc-label" data-i18n="global.exploreLabel">
+                  Explore local payment methods
+                </p>
 
                 <div
                   class="country-grid"
                   id="countryGrid"
                   role="listbox"
                   aria-label="Select a country"
+                  data-i18n-aria="aria.selectCountry"
                 >
                   <!-- Populated by app.js -->
                 </div>
@@ -224,44 +236,179 @@
                     <circle cx="15.4" cy="10.4" r="1.2" fill="currentColor" />
                   </svg>
                 </span>
-                <span class="acc-title">Brand it your way</span>
+                <span class="acc-title" data-i18n="brand.title">Brand it your way</span>
               </button>
             </h2>
 
             <div class="acc-body" id="accBodyBrand">
               <div class="acc-cols acc-cols--3">
-                <p class="acc-lede acc-lede--span2">
+                <p class="acc-lede acc-lede--span2" data-i18n="brand.lede">
                   A checkout that looks and feels like yours. Customize the fonts, colors,
                   borders, icons, and dozens of other properties to match your brand.
                 </p>
 
                 <div class="stat">
                   <span class="stat-value">38</span>
-                  <span class="stat-label">
+                  <span class="stat-label" data-i18n="brand.stat1.label">
                     Individually configurable style options to customize
                   </span>
                 </div>
               </div>
 
               <div class="acc-block">
-                <p class="acc-label">Coming soon</p>
+                <p class="acc-label" data-i18n="brand.comingSoon">Coming soon</p>
                 <ul class="soon-list">
                   <li>
                     <span class="soon-when">Q3 2026</span>
-                    <span class="soon-what">More customization options</span>
+                    <span class="soon-what" data-i18n="brand.soon1">
+                      More customization options
+                    </span>
                   </li>
                 </ul>
               </div>
 
               <div class="acc-block">
-                <p class="acc-label">Interact with a few theme samples</p>
+                <p class="acc-label" data-i18n="brand.samplesLabel">
+                  Interact with a few theme samples
+                </p>
 
                 <div
                   class="merchant-brand-grid"
                   id="merchantBrandGrid"
                   role="listbox"
                   aria-label="Select a theme"
+                  data-i18n-aria="aria.selectTheme"
                 ></div>
+              </div>
+
+              <!-- Live Flow customization: every control maps to a real
+                   CheckoutWebComponents option. -->
+              <div class="acc-block customize">
+                <div class="customize-head">
+                  <p class="acc-label" data-i18n="customize.title">
+                    Customize the checkout live
+                  </p>
+                  <button class="customize-reset" type="button" id="customizeReset">
+                    <span data-i18n="customize.reset">Reset</span>
+                  </button>
+                </div>
+
+                <div class="customize-control">
+                  <p class="customize-label" data-i18n="customize.orderLabel">
+                    Order the payment methods
+                  </p>
+                  <p class="customize-hint" data-i18n="customize.orderHint">
+                    Drag a row — or use the arrows — to set paymentMethodOrder.
+                  </p>
+                  <ul class="pm-order" id="pmOrderList">
+                    <!-- Populated by brand-customize.js -->
+                  </ul>
+                </div>
+
+                <div class="customize-row">
+                  <div class="customize-control">
+                    <p class="customize-label" data-i18n="customize.cardholderLabel">
+                      Cardholder name
+                    </p>
+                    <div
+                      class="choice-toggle"
+                      role="group"
+                      aria-label="Cardholder name position"
+                      data-i18n-aria="customize.cardholderLabel"
+                    >
+                      <button
+                        class="choice-btn is-active"
+                        type="button"
+                        data-cardholder="top"
+                        data-i18n="customize.cardholder.top"
+                      >
+                        Top
+                      </button>
+                      <button
+                        class="choice-btn"
+                        type="button"
+                        data-cardholder="bottom"
+                        data-i18n="customize.cardholder.bottom"
+                      >
+                        Bottom
+                      </button>
+                      <button
+                        class="choice-btn"
+                        type="button"
+                        data-cardholder="hidden"
+                        data-i18n="customize.cardholder.hidden"
+                      >
+                        Hidden
+                      </button>
+                    </div>
+                  </div>
+
+                  <div class="customize-control">
+                    <p class="customize-label" data-i18n="customize.payButtonLabel">
+                      Pay button
+                    </p>
+                    <div
+                      class="choice-toggle"
+                      role="group"
+                      aria-label="Show pay button"
+                      data-i18n-aria="customize.payButtonLabel"
+                    >
+                      <button
+                        class="choice-btn is-active"
+                        type="button"
+                        data-paybutton="true"
+                        data-i18n="customize.payButton.show"
+                      >
+                        Show
+                      </button>
+                      <button
+                        class="choice-btn"
+                        type="button"
+                        data-paybutton="false"
+                        data-i18n="customize.payButton.hide"
+                      >
+                        Hide
+                      </button>
+                    </div>
+                  </div>
+
+                  <div class="customize-control">
+                    <p class="customize-label" data-i18n="customize.layoutLabel">
+                      Mount layout
+                    </p>
+                    <div
+                      class="choice-toggle"
+                      role="group"
+                      aria-label="Mount layout"
+                      data-i18n-aria="customize.layoutLabel"
+                    >
+                      <button
+                        class="choice-btn is-active"
+                        type="button"
+                        data-layout="default"
+                        data-i18n="customize.layout.default"
+                      >
+                        Default
+                      </button>
+                      <button
+                        class="choice-btn"
+                        type="button"
+                        data-layout="custom"
+                        data-i18n="customize.layout.custom"
+                      >
+                        Custom divs
+                      </button>
+                    </div>
+                  </div>
+                </div>
+
+                <p class="customize-hint" id="layoutNote" hidden data-i18n="customize.layoutNote">
+                  Each method is now its own component in its own div — drag the
+                  headers in the preview to rearrange them. Methods that only
+                  exist inside the accordion (like Klarna) are not shown.
+                </p>
+
+                <pre class="customize-snippet"><code id="customizeSnippet"></code></pre>
               </div>
             </div>
           </section>
@@ -291,13 +438,15 @@
                     <circle cx="17.5" cy="14.5" r="1.4" fill="currentColor" />
                   </svg>
                 </span>
-                <span class="acc-title">A smarter way to pay</span>
+                <span class="acc-title" data-i18n="smarter.title">
+                  A smarter way to pay
+                </span>
               </button>
             </h2>
 
             <div class="acc-body" id="accBodySmarter">
               <div class="acc-cols">
-                <p class="acc-lede">
+                <p class="acc-lede" data-i18n="smarter.lede">
                   Remember Me lets shoppers save their card details once, then check out in
                   a matter of seconds across the Checkout.com network. This is including
                   when they shop with you for the first time.
@@ -305,14 +454,16 @@
 
                 <ul class="stat-list">
                   <li>
-                    <span class="stat-value">Up to 7pp</span>
-                    <span class="stat-label">
+                    <span class="stat-value" data-i18n="smarter.stat1.value">
+                      Up to 7pp
+                    </span>
+                    <span class="stat-label" data-i18n="smarter.stat1.label">
                       Higher acceptance for returning shoppers
                     </span>
                   </li>
                   <li>
-                    <span class="stat-value">9 in 10</span>
-                    <span class="stat-label">
+                    <span class="stat-value" data-i18n="smarter.stat2.value">9 in 10</span>
+                    <span class="stat-label" data-i18n="smarter.stat2.label">
                       Remember Me users pay with it when they meet it again
                     </span>
                   </li>
@@ -320,17 +471,17 @@
               </div>
 
               <div class="acc-block">
-                <p class="acc-label">Coming soon</p>
+                <p class="acc-label" data-i18n="smarter.comingSoon">Coming soon</p>
                 <ul class="soon-list">
                   <li>
                     <span class="soon-when">Q4 2026</span>
-                    <span class="soon-what">
+                    <span class="soon-what" data-i18n="smarter.soon1">
                       Biometric authentication for an even faster returning checkout
                     </span>
                   </li>
                   <li>
                     <span class="soon-when">Q4 2026</span>
-                    <span class="soon-what">
+                    <span class="soon-what" data-i18n="smarter.soon2">
                       Click to Pay integration. Shoppers can access ready-to-use card
                       details from their first visit
                     </span>
@@ -340,32 +491,58 @@
 
               <div class="acc-block acc-controls-row">
                 <div class="acc-control">
-                  <p class="acc-label">Enable Remember Me</p>
-                  <div class="choice-toggle" role="group" aria-label="Enable Remember Me">
+                  <p class="acc-label" data-i18n="smarter.enableLabel">
+                    Enable Remember Me
+                  </p>
+                  <div
+                    class="choice-toggle"
+                    role="group"
+                    aria-label="Enable Remember Me"
+                    data-i18n-aria="smarter.enableLabel"
+                  >
                     <button
                       class="choice-btn is-active"
                       type="button"
                       data-rm-mode="checkbox"
+                      data-i18n="smarter.mode.checkbox"
                     >
                       Checkbox
                     </button>
-                    <button class="choice-btn" type="button" data-rm-mode="embedded">
+                    <button
+                      class="choice-btn"
+                      type="button"
+                      data-rm-mode="embedded"
+                      data-i18n="smarter.mode.embedded"
+                    >
                       Embedded
                     </button>
                   </div>
                 </div>
 
                 <div class="acc-control">
-                  <p class="acc-label">Choose a journey</p>
-                  <div class="choice-toggle" role="group" aria-label="Choose a journey">
+                  <p class="acc-label" data-i18n="smarter.journeyLabel">
+                    Choose a journey
+                  </p>
+                  <div
+                    class="choice-toggle"
+                    role="group"
+                    aria-label="Choose a journey"
+                    data-i18n-aria="smarter.journeyLabel"
+                  >
                     <button
                       class="choice-btn is-active"
                       type="button"
                       data-rm-journey="new"
+                      data-i18n="smarter.journey.new"
                     >
                       New user
                     </button>
-                    <button class="choice-btn" type="button" data-rm-journey="returning">
+                    <button
+                      class="choice-btn"
+                      type="button"
+                      data-rm-journey="returning"
+                      data-i18n="smarter.journey.returning"
+                    >
                       Returning user
                     </button>
                   </div>
@@ -401,12 +578,14 @@
                     />
                   </svg>
                 </span>
-                <span class="acc-title">Simplify compliance</span>
+                <span class="acc-title" data-i18n="compliance.title">
+                  Simplify compliance
+                </span>
               </button>
             </h2>
 
             <div class="acc-body" id="accBodyCompliance">
-              <p class="acc-lede acc-lede--wide">
+              <p class="acc-lede acc-lede--wide" data-i18n="compliance.lede">
                 Meet certification standards without the burden. Flow captures and
                 tokenises card data inside Checkout-managed components, keeps 3DS and fraud
                 tooling on by default, and helps shrink your PCI scope — no extra
@@ -414,9 +593,15 @@
               </p>
 
               <ul class="check-list">
-                <li>PCI DSS by design — reduce scope toward SAQ A</li>
-                <li>3D Secure and card validation out of the box</li>
-                <li>Device fingerprinting detects and prevents fraud</li>
+                <li data-i18n="compliance.check1">
+                  PCI DSS by design — reduce scope toward SAQ A
+                </li>
+                <li data-i18n="compliance.check2">
+                  3D Secure and card validation out of the box
+                </li>
+                <li data-i18n="compliance.check3">
+                  Device fingerprinting detects and prevents fraud
+                </li>
               </ul>
 
               <div class="acc-block">
@@ -425,6 +610,7 @@
                     class="pci-badge"
                     src="logos/pci-dss.svg"
                     alt="PCI DSS compliant"
+                    data-i18n-alt="compliance.badge.pci.alt"
                     width="63"
                     height="24"
                   />
@@ -447,7 +633,7 @@
                         />
                       </svg>
                     </span>
-                    Encrypted Payment
+                    <span data-i18n="compliance.badge.encrypted">Encrypted Payment</span>
                   </span>
                 </div>
               </div>
@@ -530,7 +716,13 @@
           <!-- Flow lives here and is moved between the previews -->
           <div class="flow-mount" id="flowMount">
             <form class="flow-form" onsubmit="return false;">
+              <!-- Default layout: the single Flow accordion component -->
               <div id="flow-container"></div>
+
+              <!-- Custom layout: one div per payment method component,
+                   built by flow-controller.js -->
+              <div class="flow-custom" id="flow-custom" hidden></div>
+
               <span id="error-message"></span>
               <span id="successful-payment-message"></span>
             </form>
@@ -554,10 +746,50 @@
       </main>
     </div>
 
+    <!-- Language switcher, pinned to the bottom-left of the viewport -->
+    <div class="lang-switch" role="group" aria-label="Language">
+      <button
+        class="lang-btn is-active"
+        type="button"
+        data-lang="en"
+        aria-pressed="true"
+        title="English"
+      >
+        <img
+          class="lang-flag"
+          src="https://flagcdn.com/w40/gb.png"
+          srcset="https://flagcdn.com/w80/gb.png 2x"
+          alt=""
+          width="22"
+          height="16"
+        />
+        <span>UK</span>
+      </button>
+      <button
+        class="lang-btn"
+        type="button"
+        data-lang="fr"
+        aria-pressed="false"
+        title="Français"
+      >
+        <img
+          class="lang-flag"
+          src="https://flagcdn.com/w40/fr.png"
+          srcset="https://flagcdn.com/w80/fr.png 2x"
+          alt=""
+          width="22"
+          height="16"
+        />
+        <span>FR</span>
+      </button>
+    </div>
+
     <script src="https://checkout-web-components.checkout.com/index.js"></script>
     <script src="runtime-config.js"></script>
+    <script src="i18n.js"></script>
     <script src="country-config.js"></script>
     <script src="brand-config.js"></script>
+    <script src="brand-customize.js"></script>
     <script src="flow-controller.js"></script>
     <script src="app.js"></script>
   </body>

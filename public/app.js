@@ -1,4 +1,4 @@
-/* global CountryConfig, FlowController, BrandConfig */
+/* global CountryConfig, FlowController, BrandConfig, BrandCustomize, I18n */
 
 /**
  * Demo shell: timeline menu on the left (2/5), Flow preview on the right (3/5).
@@ -263,7 +263,8 @@ function initCountries() {
     if (country.sessionKey) {
       button.title = country.name;
     } else {
-      button.title = `${country.name} — session config coming soon`;
+      // Tooltip is re-rendered on language change (see initCountries below).
+      button.dataset.pending = "true";
       button.classList.add("is-pending");
     }
 
@@ -292,6 +293,22 @@ function initCountries() {
     });
     grid.appendChild(button);
   });
+
+  updateCountryTooltips();
+  I18n.onChange(updateCountryTooltips);
+}
+
+/** The "coming soon" tooltip is copy, so it follows the selected language. */
+function updateCountryTooltips() {
+  document
+    .querySelectorAll('.country-btn[data-pending="true"]')
+    .forEach((btn) => {
+      const name = btn.getAttribute("aria-label") || "";
+      btn.title = I18n.t(
+        "country.pending",
+        "%s — session config coming soon",
+      ).replace("%s", name);
+    });
 }
 
 /* ---------------- Remember Me ---------------- */
@@ -390,8 +407,29 @@ function selectMerchantBrand(brand) {
     btn.setAttribute("aria-selected", String(selected));
   });
 
-  // Remount Flow with this brand's appearance (same payment session)
-  FlowController.applyBrand(brand);
+  // Remount Flow with this brand's appearance plus whatever the live
+  // customization controls are set to (same payment session).
+  FlowController.applyBrand(brand, BrandCustomize.getOverrides());
+}
+
+/**
+ * The customization controls only drive Flow while the brand slide is open —
+ * the other slides mount Flow from their own country/session.
+ */
+function initBrandCustomize() {
+  // Re-attach drag & drop to the per-component divs after every remount.
+  FlowController.onCustomSlotsRendered((host) => {
+    BrandCustomize.wireStageSlots(host);
+  });
+
+  BrandCustomize.onChange((overrides) => {
+    if (!SECTIONS[activeSection]?.brandThemes) return;
+
+    const brand = activeMerchantBrand || BrandConfig.getDefault();
+    FlowController.applyBrand(brand, overrides);
+  });
+
+  BrandCustomize.init();
 }
 
 function initMerchantBrands() {
@@ -463,7 +501,11 @@ async function boot() {
   initPreviewToggle();
   initCountries();
   initMerchantBrands();
+  initBrandCustomize();
   initRememberMe();
+
+  // Last, so the JS-rendered menu copy above is translated on the first pass.
+  I18n.init();
 
   // Boost Performance + Desktop + United States is the default demo state.
   // ?section= and ?preview= let a stage demo open on a given slide.

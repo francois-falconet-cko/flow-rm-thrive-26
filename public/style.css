@@ -134,7 +134,9 @@ ul {
   max-height: calc(100dvh - 2 * clamp(1.25rem, 2.2vw, 2.25rem));
   overflow: auto;
   scrollbar-width: thin;
-  padding: clamp(0.5rem, 1.6vw, 1.75rem) clamp(0.25rem, 1.2vw, 1.25rem) 1rem;
+  /* Extra bottom padding so the pinned language switcher never overlaps the
+     last section when the menu is scrolled to the end. */
+  padding: clamp(0.5rem, 1.6vw, 1.75rem) clamp(0.25rem, 1.2vw, 1.25rem) 4rem;
 }
 
 .sidebar::-webkit-scrollbar {
@@ -189,6 +191,55 @@ ul {
 .accordion {
   display: flex;
   flex-direction: column;
+}
+
+/* ---------- Language switcher (pinned bottom-left of the viewport) ---------- */
+.lang-switch {
+  position: fixed;
+  left: clamp(1rem, 2.2vw, 2.25rem);
+  bottom: clamp(1rem, 2.2vw, 2.25rem);
+  z-index: 40;
+  display: flex;
+  gap: 0.5rem;
+}
+
+.lang-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.4rem 0.7rem;
+  border-radius: var(--radius-pill);
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  background: #0d0d0d;
+  color: var(--text);
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  transition: border-color 0.2s ease, background 0.2s ease, transform 0.2s ease;
+}
+
+.lang-btn:hover {
+  background: #1c1c1c;
+  transform: translateY(-1px);
+}
+
+.lang-btn:focus-visible {
+  outline: 2px solid var(--blue-soft);
+  outline-offset: 2px;
+}
+
+.lang-btn.is-active {
+  background: var(--blue);
+  border-color: var(--blue);
+}
+
+.lang-flag {
+  width: 1.15rem;
+  height: 1.15rem;
+  border-radius: 50%;
+  object-fit: cover;
+  flex-shrink: 0;
+  background: #333;
 }
 
 /* Each section is a node on the vertical timeline. */
@@ -483,6 +534,179 @@ ul {
 .choice-btn.is-active {
   background: var(--blue);
   border-color: var(--blue);
+}
+
+/* ---------- Live Flow customization (Brand it your way) ---------- */
+.customize {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  max-width: 34rem;
+}
+
+.customize-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.customize-head .acc-label {
+  margin: 0;
+}
+
+.customize-reset {
+  padding: 0.3rem 0.7rem;
+  border-radius: var(--radius-pill);
+  border: 1px solid var(--border);
+  background: transparent;
+  color: var(--text-soft);
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.customize-reset:hover {
+  color: var(--text);
+  border-color: var(--border-strong);
+}
+
+.customize-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem 2rem;
+}
+
+.customize-control {
+  min-width: 0;
+}
+
+.customize-label {
+  margin: 0 0 0.45rem;
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: var(--text);
+}
+
+.customize-hint {
+  margin: 0 0 0.6rem;
+  font-size: 0.75rem;
+  line-height: 1.5;
+  color: var(--text-soft);
+}
+
+.customize-hint code,
+.pm-code,
+.flow-slot-id {
+  padding: 0.05rem 0.3rem;
+  border-radius: 4px;
+  background: rgba(255, 255, 255, 0.08);
+  font-family: "Source Code Pro", ui-monospace, monospace;
+  font-size: 0.72rem;
+}
+
+/* Drag-to-order payment method list */
+.pm-order {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.pm-row {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+  padding: 0.45rem 0.6rem;
+  border-radius: 0.6rem;
+  border: 1px solid var(--border);
+  background: #0d0d0d;
+  cursor: grab;
+  transition: border-color 0.2s ease, background 0.2s ease, opacity 0.2s ease;
+}
+
+.pm-row:hover {
+  background: #171717;
+}
+
+.pm-row.is-dragging {
+  opacity: 0.45;
+  cursor: grabbing;
+}
+
+.pm-row.is-drop-target {
+  border-color: var(--blue-soft);
+  background: #16203a;
+}
+
+.pm-grip {
+  color: var(--text-soft);
+  font-size: 0.9rem;
+  line-height: 1;
+}
+
+.pm-index {
+  display: grid;
+  place-items: center;
+  width: 1.15rem;
+  height: 1.15rem;
+  border-radius: 50%;
+  background: var(--blue);
+  color: #fff;
+  font-size: 0.65rem;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
+.pm-label {
+  font-size: 0.82rem;
+  font-weight: 600;
+}
+
+.pm-arrows {
+  display: inline-flex;
+  gap: 0.25rem;
+  margin-left: auto;
+}
+
+.pm-arrow {
+  width: 1.5rem;
+  height: 1.5rem;
+  border-radius: 0.4rem;
+  border: 1px solid var(--border);
+  background: transparent;
+  color: var(--text);
+  font-size: 0.75rem;
+  line-height: 1;
+}
+
+.pm-arrow:hover:not(:disabled) {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.pm-arrow:disabled {
+  opacity: 0.3;
+}
+
+/* The generated options snippet */
+.customize-snippet {
+  margin: 0;
+  padding: 0.7rem 0.85rem;
+  border-radius: 0.6rem;
+  border: 1px solid var(--border);
+  background: #0a0a0a;
+  overflow-x: auto;
+}
+
+.customize-snippet code {
+  font-family: "Source Code Pro", ui-monospace, monospace;
+  font-size: 0.72rem;
+  line-height: 1.6;
+  color: var(--text-muted);
+  white-space: pre;
 }
 
 /* Simplify compliance badges */
@@ -787,6 +1011,77 @@ ul {
   color: #111;
 }
 
+/* Custom mount layout: one labelled, draggable div per component. Sits on the
+   light preview surface, so it is styled independently of the dark sidebar. */
+.flow-custom {
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+}
+
+/* `display: flex` would otherwise beat the hidden attribute */
+.flow-custom[hidden] {
+  display: none;
+}
+
+.flow-slot-card {
+  border: 1px dashed rgba(17, 17, 17, 0.28);
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.6);
+  transition: border-color 0.2s ease, opacity 0.2s ease;
+}
+
+.flow-slot-card.is-dragging {
+  opacity: 0.45;
+}
+
+.flow-slot-card.is-drop-target {
+  border-color: var(--blue);
+  border-style: solid;
+}
+
+.flow-slot-head {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.4rem 0.6rem;
+  border-bottom: 1px dashed rgba(17, 17, 17, 0.18);
+  cursor: grab;
+  user-select: none;
+}
+
+.flow-slot-head:active {
+  cursor: grabbing;
+}
+
+.flow-slot-grip {
+  color: rgba(17, 17, 17, 0.45);
+  line-height: 1;
+}
+
+.flow-slot-name {
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: #111;
+}
+
+.flow-slot-card .flow-slot-id {
+  margin-left: auto;
+  background: rgba(17, 17, 17, 0.07);
+  color: #444;
+}
+
+.flow-slot-body {
+  padding: 0.6rem;
+  min-height: 2.5rem;
+}
+
+.flow-slot-card.is-unavailable .flow-slot-body {
+  font-family: inherit;
+  font-size: 0.75rem;
+  color: #777;
+}
+
 /* Fixed widths per preview, straight from the marketing spec */
 #flowSlotDesktop {
   display: flex;
@@ -1000,7 +1295,7 @@ ul {
     position: static;
     max-height: none;
     overflow: visible;
-    padding: 0;
+    padding: 0 0 4rem;
   }
 
   .sidebar-toggle {

@@ -17,6 +17,9 @@ window.BrandConfig = (() => {
     solar: `"JetBrains Mono", ${FALLBACK_MONO}`,
     a7: `"Source Code Pro", ${FALLBACK_MONO}`,
     walle: `"Chakra Petch", ${FALLBACK_SANS}`,
+    // velvet.fr pairs RocGrotesk (display) with Work Sans (body). RocGrotesk
+    // is a licensed face, so the demo uses Work Sans throughout.
+    velvet: `"Work Sans", ${FALLBACK_SANS}`,
   };
 
   // Brand marks exported from the marketing Figma file.
@@ -443,12 +446,87 @@ window.BrandConfig = (() => {
       ],
       },
     },
+    {
+      /**
+       * Velvet — France's first independent high-speed rail operator.
+       * Palette and type taken from velvet.fr: deep teal #003E40 as the
+       * primary, warm cream #F0EBE1 as the page background, orchid #EFAAFE
+       * as the accent, and generously rounded (near-pill) controls.
+       */
+      id: "velvet",
+      wordmark: { text: "Velvet", font: FONTS.velvet },
+      name: "Velvet",
+      icon: { letter: "V", bg: "#003E40", color: "#EFAAFE" },
+      flowOptions: {
+        // A French operator — also shows Flow localizing out of the box.
+        locale: "fr-FR",
+        componentOptions: {
+          card: {
+            displayCardholderName: "top",
+          },
+        },
+      },
+      appearance: {
+        "colorAction": "#003E40",
+        "colorBackground": "#F0EBE1",
+        "colorBorder": "#C9C1B2",
+        "colorDisabled": "#C9C1B2",
+        "colorError": "#D63637",
+        "colorFormBackground": "#FFFFFF",
+        "colorFormBorder": "#C9C1B2",
+        "colorInverse": "#FFFFFF",
+        "colorOutline": "#EFAAFE",
+        "colorPrimary": "#003E40",
+        "colorSecondary": "#5F6B63",
+        "colorSuccess": "#2ECC71",
+        "button": {
+          "fontFamily": "Work Sans, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Arial, sans-serif",
+          "fontSize": "16px",
+          "fontWeight": 700,
+          "letterSpacing": "0.02em",
+          "lineHeight": "24px"
+        },
+        "footnote": {
+          "fontFamily": "Work Sans, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Arial, sans-serif",
+          "fontSize": "14px",
+          "fontWeight": 400,
+          "letterSpacing": "0px",
+          "lineHeight": "20px"
+        },
+        "input": {
+          "fontFamily": "Work Sans, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Arial, sans-serif",
+          "fontSize": "16px",
+          "fontWeight": 400,
+          "letterSpacing": "0px",
+          "lineHeight": "24px"
+        },
+        "label": {
+          "fontFamily": "Work Sans, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Arial, sans-serif",
+          "fontSize": "14px",
+          "fontWeight": 500,
+          "letterSpacing": "0px",
+          "lineHeight": "20px"
+        },
+        "subheading": {
+          "fontFamily": "Work Sans, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Arial, sans-serif",
+          "fontSize": "16px",
+          "fontWeight": 600,
+          "letterSpacing": "0px",
+          "lineHeight": "24px"
+        },
+        "borderRadius": [
+          "20px",
+          "20px"
+        ],
+      },
+    },
   ];
 
   const DEFAULT_BRAND_ID = "travelme";
 
   // Order the theme picker renders in (marketing deck order)
   const DISPLAY_ORDER = [
+    "velvet",
     "travelme",
     "walle",
     "go-deliver",
