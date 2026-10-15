@@ -13,11 +13,11 @@ Parameters:
     Description: Checkout.com secret key (sk_sbox_...)
   AppBaseUrl:
     Type: String
-    Default: https://main.d3kx3uukn3tmkj.amplifyapp.com
+    Default: https://flow-rm.cko.solutions
     Description: Amplify frontend URL (success_url / failure_url)
   CorsOrigins:
     Type: String
-    Default: https://main.d3kx3uukn3tmkj.amplifyapp.com
+    Default: https://flow-rm.cko.solutions,https://main.d3kx3uukn3tmkj.amplifyapp.com
     Description: Comma-separated allowed browser origins
 
 Globals:
